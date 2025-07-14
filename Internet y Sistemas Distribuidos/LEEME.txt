@@ -1,0 +1,14 @@
+Todos los commits hechos con un "." --> [VARIOS] sin funcionalidades importantes, hechos simplemente para hacer pulls
+
+[FUNC-1] Implementado el AbstractSqlSaleDao de Sale --> [VARIOS] Implementado el AbstractSqlSaleDao de Sale
+
+[Funcion1] Implementar validate partido --> [VARIOS] Implementar validate partido
+
+commit 9927333[FUNC-2] Añadida la función a PartidoServiceImpl
+[Varios] Creación del método removePartido en el Test --> [FUNC -2] -->Añadida la función a PartidoServiceImpl
+
+commit 103c503[FUNC-2] Añadida la función a PartidoServiceImpl
+[Varios] Creación del método removePartido en el Test --> [FUNC -2] --> test de la función
+
+
+
