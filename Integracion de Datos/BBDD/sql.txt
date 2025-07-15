@@ -1,0 +1,397 @@
+-- APARTADO A): Sentencias para la creacion de los fragmentos ----------------------------------------------------------------------------------------------------------------
+
+-- Sentencias para la creacion de los fragmentos de la FRAGMENTACION HORIZONTAL
+
+CREATE TABLE canalesEspana (
+    nombre char(30),
+    pais varchar (30),
+    tipoFinanciacion varchar (30),
+    CONSTRAINT PK_CANALESESPANA PRIMARY KEY (nombre)
+);
+
+CREATE TABLE canalesPortugal (
+    nombre char(30),
+    pais varchar (30),
+    tipoFinanciacion varchar (30),
+    CONSTRAINT PK_CANALESPORTUGAL PRIMARY KEY (nombr)
+);
+
+-- Sentencias para la creacion de los fragmentos de la FRAGMENTACION HORIZONTAL DERIVADA
+
+CREATE TABLE programasEspana (
+    nombre varchar(30),
+    genero varchar (15),
+    duracion varchar(15),
+    idioma varchar(15),
+    nombre_canal varchar(10),
+    CONSTRAINT PK_PROGRAMASESPANA PRIMARY KEY (nombre),
+    CONSTRAINT FK_CANALESESPANA FOREIGN KEY (nombre_canal) REFERENCES canalesEspana (nombre)
+);
+
+CREATE TABLE programasPortugal (
+    nombre varchar(30),
+    genero varchar (15),
+    duracion varchar(15),
+    idioma varchar(15),
+    nombre_canal varchar(10),
+    CONSTRAINT PK_PROGRAMASPORTUGAL PRIMARY KEY (nombre),
+    CONSTRAINT FK_CANALESPORTUGAL FOREIGN KEY (nombre_canal) REFERENCES canalesEspana (nombre)
+);
+-- APARTADO B): Sentencias para la creacion de las vistas --------------------------------------------------------------------------------------------------------------------
+
+-- Creacion de la vista de la tabla CANALES (union de los fragmentos de la fragmentacion horizontal)
+
+CREATE VIEW canales AS 
+SELECT * FROM canalesEspana
+UNION
+SELECT * FROM canalesPortugal;
+
+-- Creacion de la vista de la tabla PROGRAMAS (union de los fragmentos de la fragmentacion horizontal derivada)
+
+CREATE VIEW programas AS 
+SELECT * FROM programasEspana
+UNION
+SELECT * FROM programasPortugal;
+
+-- APARTADO C): Sentencias para la creacion de los triggers ------------------------------------------------------------------------------------------------------------------
+
+-- Triggers de la fragmentacion horizontal ----------------------------------------------------------------------------------------------------
+
+-- Trigger de INSERCION --------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER INSERT_CANAL
+INSTEAD OF INSERT ON canales
+FOR EACH ROW
+DECLARE
+    n number;
+BEGIN
+    SELECT COUNT(*) INTO n FROM canales WHERE nombre = :new.nombre;
+
+    IF (n != 0)
+        THEN RAISE_APPLICATION_ERROR(-20001, 'O canal ' ||:new.nombre || ' xa existe na Base de Datos');
+    END IF;
+
+    IF upper(:new.pais) = 'ESPANA'
+        THEN 
+            INSERT INTO canalesEspana VALUES(:new.nombre, :new.pais, :new.tipoFinanciacion);
+    ELSIF upper(:new.pais) = 'PORTUGAL'
+        THEN 
+            INSERT INTO canalesPortugal VALUES(:new.nombre, :new.pais, :new.tipoFinanciacion);
+    ELSE
+        RAISE_APPLICATION_ERROR(-20002, 'Non hai canales en '||:new.pais);
+    END IF;
+END;
+/
+
+
+-- Trigger de ELIMINACION ------------------------------------------------------------------------------------
+
+-- Al eliminar una localidad que no existe no pasa nada
+-- Al eliminar una localidad que tenga clientes asociados, saltara el error de violacion de integridad referencial
+
+CREATE OR REPLACE TRIGGER DELETE_CANAL
+INSTEAD OF DELETE ON canales
+FOR EACH ROW
+DECLARE 
+    countN number;
+BEGIN
+    IF upper(:old.PAIS) = 'ESPANA'
+        THEN
+            SELECT COUNT(*) INTO countN FROM canalesEspana WHERE pais = :old.pais;
+            
+            IF (countN = 0)
+                THEN
+                    DELETE FROM canalesEspana WHERE pais = :old.pais;
+                ELSE
+                    RAISE_APPLICATION_ERROR(-20003, 'No se puede borrar el pais ' ||:old.pais || ' porque tiene programas asociados');
+            END IF;
+        ELSE
+            SELECT COUNT(*) INTO countN FROM canalesPortugal WHERE pais = :old.pais;
+
+            IF (countN = 0)
+                THEN
+                    DELETE FROM canalesPortugal WHERE pais = :old.pais;
+                ELSE
+                    RAISE_APPLICATION_ERROR(-20003, 'No se puede borrar la pais' ||:old.pais || ' porque tiene programas asociados');
+            END IF;
+    END IF;
+END;
+/
+
+-- Trigger de MODIFICACION -----------------------------------------------------------------------------------
+
+-- Ao cambiar o tipo de financiacion dun canal, vai seguir no mesmo país
+-- Un canal pode cambiar de país
+CREATE OR REPLACE TRIGGER UPDATE_CANAL
+INSTEAD OF UPDATE ON canales
+FOR EACH ROW
+BEGIN
+    IF :new.nombre != :old.nombre
+        THEN RAISE_APPLICATION_ERROR(-20050, 'Non se pode modificar a clave primaria');
+    END IF;
+
+    IF :new.tipoFinanciacion != :old.tipoFinanciacion
+        THEN
+            IF upper(:old.pais) = 'ESPANA'
+                THEN
+                    UPDATE canalesEspana SET tipoFinanciacion = :new.tipoFinanciacion WHERE nombre = :old.nombre;
+                ELSE
+                    UPDATE canalesPortugal SET tipoFinanciacion = :new.tipoFinanciacion WHERE nombre = :old.nombre;
+            END IF;
+    END IF;
+
+    IF upper(:new.pais) != upper(:old.pais)
+        THEN
+            IF upper(:old.pais) = 'ESPANA'A CORUNA
+                THEN
+                    INSERT INTO canalesPortugal SELECT * FROM canalesEspana WHERE nombre = :old.nombre;
+                    INSERT INTO programasPortugal SELECT * FROM programasEspana WHERE nombre = :old.nombre;
+                    UPDATE canalesPortugal SET pais = :new.pais WHERE nombre = :old.nombre;
+                    DELETE FROM programasEspana WHERE nombre = :old.nombre;
+                    DELETE FROM canalesEspana WHERE nombre = :old.nombre;
+
+                ELSE
+                    INSERT INTO canalesEspana SELECT * FROM canalesPortugal WHERE nombre = :old.nombre;
+                    INSERT INTO programasEspana SELECT * FROM programasPortugal WHERE nombre = :old.nombre;
+                    UPDATE canalesEspana SET pais = :new.pais WHERE nombre = :old.nombre;
+                    DELETE FROM programasPortugal WHERE nombre = :old.nombre;
+                    DELETE FROM canalesPortugal WHERE nombre = :old.nombre;
+            END IF;
+    END IF;
+END;
+/
+
+-- Triggers de la fragmentacion horizontal derivada -------------------------------------------------------------------------------------------
+
+-- Trigger de INSERCION --------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER INSERT_PROGRAMA
+INSTEAD OF INSERT ON programas
+FOR EACH ROW
+DECLARE
+    countN number;
+    registroCanales canales%ROWTYPE;
+BEGIN
+    SELECT COUNT(*) INTO countN FROM canales WHERE nombre = :new.nombre;
+
+    IF (countN != 0)
+        THEN RAISE_APPLICATION_ERROR(-20001, 'Programa con nombre ' ||:new.nombre || ' ya existe');
+    END IF;
+
+    SELECT COUNT(*) INTO countN FROM canales c WHERE c.nombre = :new.nombre;
+    IF (countN = 0)
+        THEN RAISE_APPLICATION_ERROR(-20001, 'El canal ' ||:new.nombre || ' no existe');
+    END IF;
+
+    SELECT * INTO registroCanales FROM canales c WHERE c.nombre = :new.nombre;
+
+    IF upper(registroCanales.PAIS) = 'Espana'
+        THEN 
+            INSERT INTO programasEspana VALUES(:new.NOMBRE, :new.pais, :new.TIPOFINANCIACION);
+    ELSIF upper(registroCanales.PAIS) = 'Portugal'
+        THEN 
+            INSERT INTO programasPortugal VALUES(:new.NOMBRE, :new.pais, :new.TIPOFINANCIACION);
+    ELSE
+        RAISE_APPLICATION_ERROR(-20002, 'No hay programas en '||registroCanales.P);
+    END IF;
+END;
+/
+
+
+-- Trigger de ELIMINACION ------------------------------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER DELETE_PROGRMA
+INSTEAD OF DELETE ON programas
+FOR EACH ROW
+DECLARE
+    registroCanales canales%ROWTYPE;
+BEGIN
+    SELECT * INTO registroCanales FROM canales WHERE nombre = :old.nombre;
+
+    IF upper(registroCanales.pais) = 'ESPANA'
+        THEN
+            DELETE FROM programasEspana WHERE nombre = :old.nombre;
+        ELSE
+            DELETE FROM programasPortugal WHERE nombre = :old.nombre;
+    END IF;
+END;
+/
+
+
+
+-- Trigger de MODIFICACION -----------------------------------------------------------------------------------
+
+-- Hay que poner a NULL el codigo de localidad si se ha cambiado el codlocalidad porque:
+--          Se va a hacer un insert al fragmento de la provincia correspondiente, y este fragmente tendra una restriccion FK para apuntar a la tabla de localidades de dicha provincia
+--          Al insertar por ejemplo en CLIENTES_CORU un cliente de CLIENTES_LUGO, este cliente tendra un codlocalidad correspondiente a una localidad de lugo, y por tanto
+--          al hacer esta insercion, no va a encontrar el codigo de localidad en la tabla de localidades de coruña, dando un error de integridad referencial
+--          SOL: antes de hacer la insercion, modificar el valor de codlocalidad a NULL en la tabla de CLIENTES_LUGO, para asi poder insertar el cliente en CLIENTES_CORU
+
+-- Un cliente puede cambiar de localidad sin cambiar de direccion
+-- Un cliente puede cambiar de direccion sin cambiar de localidad
+CREATE OR REPLACE TRIGGER UPDATE_PROGRAMA
+INSTEAD OF UPDATE ON programas
+FOR EACH ROW
+DECLARE
+    registroCanalViejo canales%ROWTYPE;
+    registroCanalNuevo canales%ROWTYPE;
+    countN number;
+BEGIN
+    IF :new.nombre != :old.nombre
+        THEN RAISE_APPLICATION_ERROR(-20050, 'No se permite la modificación de la clave primaria');
+    END IF;
+
+    -- Obtener información del canal antiguo
+    SELECT * INTO registroCanalViejo FROM canales c WHERE c.nombre = :old.nombre_canal;
+
+    -- Actualizar atributos no clave (excepto nombre_canal)
+    IF :new.genero != :old.genero OR :new.duracion != :old.duracion OR :new.idioma != :old.idioma
+        THEN
+            IF registroCanalViejo.pais = 'España'
+                THEN
+                    UPDATE programasEspana 
+                    SET genero = :new.genero, 
+                        duracion = :new.duracion, 
+                        idioma = :new.idioma 
+                    WHERE nombre = :old.nombre;
+                ELSE
+                    UPDATE programasPortugal 
+                    SET genero = :new.genero, 
+                        duracion = :new.duracion, 
+                        idioma = :new.idioma 
+                    WHERE nombre = :old.nombre;
+            END IF;
+    END IF;
+
+    -- Si cambia el canal
+    IF :new.nombre_canal != :old.nombre_canal
+        THEN
+            -- Verificar que existe el nuevo canal
+            SELECT COUNT(*) INTO countN FROM canales c WHERE c.nombre = :new.nombre_canal;
+
+            IF (countN = 0) 
+                THEN RAISE_APPLICATION_ERROR(-20050, 'No se ha encontrado el canal ' || :new.nombre_canal);
+            ELSE
+                -- Obtener información del nuevo canal
+                SELECT * INTO registroCanalNuevo FROM canales c WHERE c.nombre = :new.nombre_canal;
+
+                -- Si el país del canal no cambia
+                IF registroCanalNuevo.pais = registroCanalViejo.pais
+                    THEN
+                        IF registroCanalViejo.pais = 'España'
+                            THEN
+                                UPDATE programasEspana 
+                                SET nombre_canal = :new.nombre_canal 
+                                WHERE nombre = :old.nombre;
+                            ELSE
+                                UPDATE programasPortugal 
+                                SET nombre_canal = :new.nombre_canal 
+                                WHERE nombre = :old.nombre;
+                        END IF;
+                ELSE
+                    -- El programa cambia de país (España -> Portugal o viceversa)
+                    IF registroCanalViejo.pais = 'España'
+                        THEN
+                            -- Mover de España a Portugal
+                            UPDATE programasEspana SET nombre_canal = NULL WHERE nombre = :old.nombre;
+                            INSERT INTO programasPortugal 
+                            VALUES (:old.nombre, :new.genero, :new.duracion, :new.idioma, :new.nombre_canal);
+                            DELETE FROM programasEspana WHERE nombre = :old.nombre;
+                        ELSE
+                            -- Mover de Portugal a España
+                            UPDATE programasPortugal SET nombre_canal = NULL WHERE nombre = :old.nombre;
+                            INSERT INTO programasEspana 
+                            VALUES (:old.nombre, :new.genero, :new.duracion, :new.idioma, :new.nombre_canal);
+                            DELETE FROM programasPortugal WHERE nombre = :old.nombre;
+                    END IF;
+                END IF;
+            END IF;
+    END IF;
+END;
+/
+
+
+-- Para probar que funcionan -------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO canales (nombre, pais, tipoFinanciacion) VALUES ('Antena3', 'Espana', 'Privada');
+INSERT INTO canales (nombre, pais, tipoFinanciacion) VALUES ('Divinity', 'Portugal', 'Publica');
+INSERT INTO canales (nombre, pais, tipoFinanciacion) VALUES ('Neox', 'Espana', 'Mixta');
+INSERT INTO canales (nombre, pais, tipoFinanciacion) VALUES ('La Sexta', 'Portugal', 'Publica');
+INSERT INTO canales (nombre, pais, tipoFinanciacion) VALUES ('Telecinco', 'Espana', 'Mixta');
+
+
+SELECT * FROM canales;
+SELECT * FROM canalesEspana;
+SELECT * FROM canalesPortugal;
+
+
+
+
+
+
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('Telediario', 'Noticias', '60 min', 'Espanol', 'Antena3');
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('Jornal da Tarde', 'Noticias', '45 min', 'Portugues', 'Divinity');
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('El Hormiguero', 'Entretenimiento', '120 min', 'Espanol', 'Neox');
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('La Voz', 'Reality', '90 min', 'Espanol', 'Neox');
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('Big Brother', 'Reality', '60 min', 'Portugues', 'La Sexta');
+INSERT INTO programas (nombre, genero, duracion, idioma, nombre_canal) 
+VALUES ('Supervivientes', 'Aventuras', '50 min', 'Espanol', 'Telecinco');
+
+SELECT * FROM programas;
+SELECT * FROM programasEspana;
+SELECT * FROM programasPortugal;
+
+
+
+
+
+UPDATE canales SET tipoFinanciacion = 'Publica' WHERE nombre = 'Divinity';
+UPDATE canales SET tipoFinanciacion = 'Mixta' WHERE nombre = 'La Sexta';
+
+SELECT * FROM canales;
+SELECT * FROM canalesEspana;
+SELECT * FROM canalesPortugal;
+SELECT * FROM programas;
+SELECT * FROM programasEspana;
+SELECT * FROM programasPortugal;
+
+
+
+
+
+UPDATE programas SET genero = 'Entretenimiento', duracion = '50 min', idioma = 'Ingles', nombre_canal= 'Antena3' WHERE nombre = 'Telediario';
+-- Al hacer este cambio de localidad, el cliente C00000003 se va a cambiar de fragmento (al de Coruña)
+UPDATE programas SET genero = 'Reality', duracion = '70 min', idioma = 'Frances', nombre_canal= 'Neox' WHERE nombre = 'El Hormiguero';
+
+
+SELECT * FROM programas;
+SELECT * FROM programasEspana;
+SELECT * FROM programasPortugal;
+
+
+
+
+
+DELETE FROM programa WHERE nombre = 'Telediario';
+DELETE FROM programa WHERE nombre = 'Supervivientes';
+
+SELECT * FROM programa;
+SELECT * FROM programasEspana;
+SELECT * FROM programasPortugal;
+
+
+
+
+
+DELETE FROM canales where nombre = 'La Sexta';
+DELETE FROM canales where nombre = 'Neox';
+DELETE FROM canales where nombre = 'Telecinco';
+
+SELECT * FROM canales;
+SELECT * FROM canalesEspana;
+SELECT * FROM canalesPortugal;
