@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas las Tareas</title>
+    <link rel="stylesheet" href="añadir.css">
+    <link rel="stylesheet" href="tareas.css">
+</head>
+
+<body>
+    <header>
+        <h1>Todas las Tareas</h1>
+        <a href="activas.html" class="back-link">&#8592; Volver</a>
+    </header>
+
+    <main>
+        <section class="task-container" role="region" aria-labelledby="task-heading" aria-live="polite" aria-relevant="all">
+            <h2 id="task-heading">Listado de Tareas</h2>
+            <div id="select-all-checkbox" role="checkbox" aria-checked="false">
+                <input type="checkbox" id="selectAll" class="task-checkbox">
+                <label for="selectAll">Seleccionar Todas</label>
+            </div>
+
+            <div class="add-task-container">
+                <button type="button" onclick="location.href='añadir.html'" role="link">Agregar Tarea</button>
+            </div>
+
+            <div id="tasksList" role="list"></div>
+
+            <div class="add-task-container">
+                <button type="button" onclick="location.href='activas.html'" id="CompletarTarea" role="button">Completar Tarea</button>
+                <span class="spacer"></span>
+                <button type="button" onclick="location.href='activas.html'" id="EliminarTarea" role="button">Eliminar Tarea</button>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="TodasJava.js"></script>
+</body>
+
+</html>

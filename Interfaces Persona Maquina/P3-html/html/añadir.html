@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Tarea</title>
+    <link rel="stylesheet" href="añadir.css">
+</head>
+
+<body>
+    <header>
+        <h1>To Do App</h1>
+        <a href="activas.html" class="back-link">&#8592; Volver</a>
+        <nav class="desktop-buttons">
+            <button onclick="location.href='Todas.html'">Mostrar Todas</button>
+            <button onclick="location.href='completadas.html'">Mostrar Completadas</button>
+        </nav>
+        <input type="checkbox" class="menu-checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">☰</label>
+
+        <ul class="menu-options">
+            <li><a href="Todas.html">Mostrar Todas</a></li>
+            <li><a href="activas.html">Mostrar Activas</a></li>
+            <li><a href="completadas.html">Mostrar Completadas</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <section class="task-container">
+            <h4>Formulario de Agregar Tarea</h4>
+            <form id="addTaskForm" role="form">
+                <p class="small-text">Los campos marcados con * son obligatorios</p>
+                <label for="nombre">Nombre de la tarea *</label>
+                <input type="text" id="nombre" name="nombre" required aria-required="true" aria-label="Nombre de la tarea">
+
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="5" cols="30" aria-label="Descripción de la tarea"></textarea>
+
+                <label for="fecha">Fecha límite</label>
+                <div class="flex-container">
+                    <input type="date" id="fecha" name="fecha" aria-label="Fecha límite">
+                    <button id="addTaskButton" role="button">Agregar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script src="añadirJava.js"></script>
+</body>
+
+</html>

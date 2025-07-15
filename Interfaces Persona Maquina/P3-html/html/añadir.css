@@ -1,0 +1,159 @@
+/* styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #d7d7e5;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+form label,
+form input,
+form textarea,
+form button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+form textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.flex-container {
+    display: flex;
+    gap: 10px;
+}
+
+form button {
+    display: inline-block;
+    background-color: #6c5ce7;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.small-text { /*para hacer el tamaño del texto mas pequeño*/
+    font-size: 14px;
+    color: #959595;
+    margin-top: 5px;
+}
+
+.task-container {
+    max-width: 80%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del menú en pantallas móviles y tablet*/
+.menu-checkbox {
+    display: none;
+}
+
+.menu-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    z-index: 2;
+}
+
+.menu-options {
+    display: none;
+    list-style: none;
+    padding: 10px 0 0 10px;
+    margin: 40px 0 0 0;
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-options li {
+    margin-bottom: 10px;
+}
+
+.menu-checkbox:checked + .menu-icon + .menu-options {
+    display: block;
+}
+
+/* Estilos adicionales para tablet */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .task-container {
+        max-width: 80%;
+    }
+}
+
+/* Estilos adicionales para pantallas más grandes (escritorio) */
+.desktop-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+    .desktop-buttons {
+        display: none;
+    }
+}
+@media screen and (min-width: 1025px) {
+    .task-container {
+        max-width: 60%;
+    }
+
+    .menu-icon {
+        display: none;
+    }
+
+    .menu-options {
+        display: none;
+        list-style: none;
+        padding: 0;
+        margin: 40px 0 0 0;
+        width: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+    .desktop-buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .menu-options li {
+        margin-bottom: 10px;
+    }
+
+    .menu-checkbox {
+        display: none;
+    }
+
+    .menu-options {
+        display: none;
+    }
+
+    .menu-checkbox:checked + .menu-icon + .menu-options {
+        display: none;
+    }
+
+
+
+}

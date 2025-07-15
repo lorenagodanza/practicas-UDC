@@ -1,0 +1,74 @@
+# Spanish translations for ipm package.
+# Copyright (C) 2023 THE ipm'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ipm package.
+# Ana Gonzalez Conde <ana@ana-asus-tuf-dash-f15-fx516pm-fx516pm>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ipm 2324-p1-grupo_5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-07 12:35+0100\n"
+"PO-Revision-Date: 2023-11-07 12:38+0100\n"
+"Last-Translator: Ana Gonzalez Conde <ana@ana-asus-tuf-dash-f15-fx516pm-"
+"fx516pm>\n"
+"Language-Team: Spanish <es@tp.org.es>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: view.py:79
+msgid "Drink finder"
+msgstr "Buscador de Bebidas"
+
+#: view.py:95
+msgid "Search here..."
+msgstr "Buscar aqui..."
+
+#: view.py:101
+msgid "Search"
+msgstr "Buscar"
+
+#: view.py:114
+msgid "Categories:"
+msgstr "Categorias:"
+
+#: view.py:123
+msgid "Ingredients:"
+msgstr "Ingredientes:"
+
+#: view.py:364
+msgid "No instructions provided"
+msgstr "No hay instrucciones disponibles"
+
+#: view.py:366
+msgid "INSTRUCTIONS:"
+msgstr "INSTRUCCIONES:"
+
+#: view.py:405
+msgid "No description available"
+msgstr "Descripcion no disponible"
+
+#: view.py:456
+msgid "Error"
+msgstr "Error"
+
+#: presenter.py:46 presenter.py:84 presenter.py:118 presenter.py:142
+#: presenter.py:167 presenter.py:193 presenter.py:219
+msgid "Unexpected Server Response"
+msgstr "Respuesta inesperada del servidor"
+
+#: presenter.py:49 presenter.py:86 presenter.py:120 presenter.py:144
+#: presenter.py:169 presenter.py:195 presenter.py:222
+msgid "Waiting time exceeded"
+msgstr "Tiempo de espera excedido"
+
+#: presenter.py:52 presenter.py:88 presenter.py:122 presenter.py:146
+#: presenter.py:171 presenter.py:197 presenter.py:224
+msgid "Internet Connection Error"
+msgstr "Error de Conexion a Internet"
+
+#: presenter.py:82 presenter.py:116 presenter.py:140
+msgid "Cocktail not found"
+msgstr "Coctel no encontrado"

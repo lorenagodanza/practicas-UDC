@@ -1,0 +1,41 @@
+/* Estilos para las tareas */
+.task {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+    width: 20px; /* Ancho del checkbox */
+    height: 20px; /* Altura del checkbox */
+}
+
+.pending-tasks-container {
+    margin-top: 10px; /* Ajusta según sea necesario */
+}
+
+.pending-tasks-count {
+    font-weight: bold;
+    color: #e74c3c; /* Color de texto para resaltar */
+}
+
+.add-task-container {
+    text-align: right;
+}
+
+.task-details {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+/* Estilo para la descripción de la tarea dentro del contenedor */
+.task-details p {
+    word-wrap: break-word;
+    margin-bottom: 5px; /* ajusta este valor según sea necesario */
+}
+

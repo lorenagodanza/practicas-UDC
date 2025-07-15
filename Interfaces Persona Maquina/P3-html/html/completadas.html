@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tareas Completadas</title>
+    <link rel="stylesheet" href="añadir.css">
+    <link rel="stylesheet" href="tareas.css">
+
+</head>
+
+<body>
+    <header>
+        <h1>Tareas Completadas</h1>
+        <a href="activas.html" class="back-link">&#8592; Volver</a>
+    </header>
+
+    <main>
+        <section class="task-container" aria-labelledby="completed-tasks-heading">
+            <h2 id="completed-tasks-heading">Listado de Tareas</h2>
+            <div id="select-all-checkbox" role="checkbox" aria-checked="false" aria-labelledby="select-all-label">
+                <input type="checkbox" id="selectAll" class="task-checkbox">
+                <label for="selectAll" id="select-all-label">Seleccionar Todas</label>
+            </div>
+
+            <article class="task">
+                <div role="checkbox" aria-checked="false" aria-labelledby="task1-heading">
+                    <input type="checkbox" id="task1" class="task-checkbox">
+                    <div class="task-details">
+                        <header>
+                            <h2 id="task1-heading">Nombre de la tarea 1</h2>
+                        </header>
+                        <p>Descripción de la tarea 1</p>
+                        <p>Fecha límite: 2023-01-01</p>
+                        <button type="button" onclick="location.href='añadir.html'" class="edit">Editar</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="task">
+                <div role="checkbox" aria-checked="false" aria-labelledby="task1-heading">
+                    <input type="checkbox" id="task2" class="task-checkbox">
+                    <div class="task-details">
+                        <header>
+                            <h2 id="task2-heading">Nombre de la tarea 2</h2>
+                        </header>
+                        <p>Descripción de la tarea 2</p>
+                        <p>Fecha límite: 2023-01-01</p>
+                        <button type="button" onclick="location.href='añadir.html'" class="edit">Editar</button>
+                    </div>
+                </div>
+            </article>
+
+             <div class="add-task-container">
+               <button type="button" onclick="location.href='completadas.html'" class="edit" aria-label="Eliminar tareas seleccionadas">Eliminar Tarea</button>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>
