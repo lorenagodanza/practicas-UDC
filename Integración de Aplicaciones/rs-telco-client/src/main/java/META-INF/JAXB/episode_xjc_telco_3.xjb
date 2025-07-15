@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="3.0" xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por Eclipse Implementation of JAXB v4.0.5 
+Visite https://eclipse-ee4j.github.io/jaxb-ri 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2024.12.04 a las 07:24:51 PM CET
+  -->
+  <jaxb:bindings scd="x-schema::tns" if-exists="true" auto-acknowledge="true" xmlns:tns="http://ws.udc.es/telco/xml">
+    <jaxb:schemaBindings map="false">
+      <jaxb:package name="es.udc.rs.telco.client.service.rest.dto"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings scd="~tns:customerType" if-exists="true" auto-acknowledge="true">
+      <jaxb:class ref="es.udc.rs.telco.client.service.rest.dto.CustomerType"/>
+    </jaxb:bindings>
+    <jaxb:bindings scd="~tns:inputValidationExceptionType" if-exists="true" auto-acknowledge="true">
+      <jaxb:class ref="es.udc.rs.telco.client.service.rest.dto.InputValidationExceptionType"/>
+    </jaxb:bindings>
+    <jaxb:bindings scd="~tns:instanceNotFoundExceptionType" if-exists="true" auto-acknowledge="true">
+      <jaxb:class ref="es.udc.rs.telco.client.service.rest.dto.InstanceNotFoundExceptionType"/>
+    </jaxb:bindings>
+    <jaxb:bindings scd="~tns:phoneCallBtwDatesType" if-exists="true" auto-acknowledge="true">
+      <jaxb:class ref="es.udc.rs.telco.client.service.rest.dto.PhoneCallBtwDatesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings scd="~tns:phoneCallType" if-exists="true" auto-acknowledge="true">
+      <jaxb:class ref="es.udc.rs.telco.client.service.rest.dto.PhoneCallType"/>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings scd="x-schema::" if-exists="true" auto-acknowledge="true">
+    <jaxb:schemaBindings map="false">
+      <jaxb:package name="es.udc.rs.telco.client.service.rest.dto"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings scd="~callType" if-exists="true" auto-acknowledge="true">
+      <jaxb:typesafeEnumClass ref="es.udc.rs.telco.client.service.rest.dto.CallType"/>
+    </jaxb:bindings>
+    <jaxb:bindings scd="~callStatus" if-exists="true" auto-acknowledge="true">
+      <jaxb:typesafeEnumClass ref="es.udc.rs.telco.client.service.rest.dto.CallStatus"/>
+    </jaxb:bindings>
+  </jaxb:bindings>
+</jaxb:bindings>
+

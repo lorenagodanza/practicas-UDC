@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="3.0" xmlns="https://jakarta.ee/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por Eclipse Implementation of JAXB v4.0.5 
+Visite https://eclipse-ee4j.github.io/jaxb-ri 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2024.12.07 a las 09:00:49 PM CET
+  -->
+  <bindings scd="x-schema::tns" if-exists="true" auto-acknowledge="true" xmlns:tns="http://ws.udc.es/telco/xml">
+    <schemaBindings map="false">
+      <package name="es.udc.rs.telco.client.service.rest.dto"/>
+    </schemaBindings>
+    <bindings scd="~tns:changeStatusType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.ChangeStatusType"/>
+    </bindings>
+    <bindings scd="~tns:customerType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.CustomerType"/>
+    </bindings>
+    <bindings scd="~tns:customerWithCallsType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.CustomerWithCallsType"/>
+    </bindings>
+    <bindings scd="~tns:errorType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.ErrorType"/>
+    </bindings>
+    <bindings scd="~tns:inputValidationExceptionType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.InputValidationExceptionType"/>
+    </bindings>
+    <bindings scd="~tns:instanceNotFoundExceptionType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.InstanceNotFoundExceptionType"/>
+    </bindings>
+    <bindings scd="~tns:phoneCallType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.PhoneCallType"/>
+    </bindings>
+    <bindings scd="~tns:phoneCallBtwDatesType" if-exists="true" auto-acknowledge="true">
+      <class ref="es.udc.rs.telco.client.service.rest.dto.PhoneCallBtwDatesType"/>
+    </bindings>
+  </bindings>
+</bindings>
+

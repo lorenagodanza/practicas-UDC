@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="f1a77f54-90a7-4946-970f-2f0e4a9a7a41" activeEnvironment="Default" name="Cliente" resourceRoot="" soapui-version="5.7.2" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="cb3e92db-aa6a-46c4-86a8-4b775fef6af5" wsaVersion="NONE" name="ClientBinding" type="wsdl" bindingName="{http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client}ClientBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:5050/ClientService/ClientPort?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:5050/ClientService/ClientPort?wsdl"><con:part><con:url>http://localhost:5050/ClientService/ClientPort?wsdl</con:url><con:content><![CDATA[<definitions name="Client" targetNamespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://rs.udc.es/billing" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">
+      <xsd:import namespace="http://rs.udc.es/billing" schemaLocation="http://MSI_RAUL:5050/BpelModuleFinalCompositeApplication-sun-http-binding/BpelModuleFinal/BillingService.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="ClientOperationRequest">
+    <part name="clientId" type="xsd:long"></part>
+    <part name="month" type="xsd:byte"></part>
+    <part name="year" type="xsd:int"></part>
+  </message>
+  <message name="ClientOperation1Request">
+    <part name="customerId" type="xsd:long"></part>
+    <part name="month" type="xsd:byte"></part>
+    <part name="year" type="xsd:int"></part>
+  </message>
+  <message name="ClientOperationResponse">
+    <part name="idBill" type="xsd:long"></part>
+    <part name="totalBilled" type="xsd:double"></part>
+    <part name="isBilled" type="xsd:boolean"></part>
+    <part name="pricedPhoneCallsList" type="ns:pricedPhoneCallsList"></part>
+  </message>
+  <portType name="ClientPortType">
+    <operation name="ClientOperation">
+      <input name="input1" message="tns:ClientOperationRequest"></input>
+      <output name="output1" message="tns:ClientOperationResponse"></output>
+    </operation>
+  </portType>
+  <binding name="ClientBinding" type="tns:ClientPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ClientOperation">
+      <soap:operation/>
+      <input name="input1">
+        <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client"/>
+      </input>
+      <output name="output1">
+        <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ClientService">
+    <port name="ClientPort" binding="tns:ClientBinding">
+      <soap:address location="http://MSI_RAUL:5050/ClientService/ClientPort"/>
+    </port>
+  </service>
+  <plnk:partnerLinkType name="Client">
+    <!--A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+    <plnk:role name="ClientPortTypeRole" portType="tns:ClientPortType"/>
+  </plnk:partnerLinkType>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://MSI_RAUL:5050/BpelModuleFinalCompositeApplication-sun-http-binding/BpelModuleFinal/BillingService.xsd</con:url><con:content><![CDATA[<!--Published by XML-WS Runtime (https://github.com/eclipse-ee4j/metro-jax-ws). Runtime's version is XML-WS Runtime 4.0.2 git-revision#0264419.-->
+<xs:schema version="1.0" targetNamespace="http://rs.udc.es/billing" xmlns:tns="http://rs.udc.es/billing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="createAndSendBill" type="tns:createAndSendBill"/>
+  <xs:element name="createAndSendBillResponse" type="tns:createAndSendBillResponse"/>
+  <xs:complexType name="createAndSendBill">
+    <xs:sequence>
+      <xs:element name="customerId" type="xs:long" minOccurs="0"/>
+      <xs:element name="month" type="xs:short"/>
+      <xs:element name="year" type="xs:short"/>
+      <xs:element name="priced-call" type="tns:pricedPhoneCall" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="discount" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pricedPhoneCall">
+    <xs:sequence>
+      <xs:element name="customerId" type="xs:long" minOccurs="0"/>
+      <xs:element name="destinationNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="duration" type="xs:long" minOccurs="0"/>
+      <xs:element name="phoneCallId" type="xs:long" minOccurs="0"/>
+      <xs:element name="phoneCallType" type="tns:phoneCallType" minOccurs="0"/>
+      <xs:element name="price" type="xs:double"/>
+      <xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createAndSendBillResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:billSummary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="billSummary">
+    <xs:sequence>
+      <xs:element name="amount" type="xs:double"/>
+      <xs:element name="billId" type="xs:long" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="phoneCallType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LOCAL"/>
+      <xs:enumeration value="NATIONAL"/>
+      <xs:enumeration value="INTERNATIONAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="pricedPhoneCallsList">
+    <xs:sequence>
+      <xs:element name="priced-call" type="tns:pricedPhoneCall" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://MSI_RAUL:5050/ClientService/ClientPort</con:endpoint></con:endpoints><con:operation id="9992afb2-4ba7-4db1-9e51-3ca89c835bf8" isOneWay="false" action="" name="ClientOperation" bindingOperationName="ClientOperation" type="Request-Response" outputName="output1" inputName="input1" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="05879c7f-fd5b-4b79-83a7-496c5bb5fc44" name="Numero1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5050/ClientService/ClientPort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cli:ClientOperation>\r
+         <clientId>2</clientId>\r
+         <month>9</month>\r
+         <year>2024</year>\r
+      </cli:ClientOperation>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client/ClientPortType/input1"/><con:wsrmConfig version="1.2"/></con:call><con:call id="6022c213-c1ec-45ed-9f64-f1c6e47ca164" name="Numero2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5050/ClientService/ClientPort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cli:ClientOperation>\r
+         <clientId>2</clientId>\r
+         <month>9</month>\r
+         <year>2024</year>\r
+      </cli:ClientOperation>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client/ClientPortType/input1"/><con:wsrmConfig version="1.2"/></con:call><con:call id="7bf61238-729f-4e46-b513-b8b1f07369b5" name="Numero3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5050/ClientService/ClientPort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cli:ClientOperation>\r
+         <clientId>1</clientId>\r
+         <month>9</month>\r
+         <year>2024</year>\r
+      </cli:ClientOperation>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client/ClientPortType/input1"/><con:wsrmConfig version="1.2"/></con:call><con:call id="9999cfc5-a03d-4b78-b817-8ce040b1ab81" name="Numero4"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5050/ClientService/ClientPort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cli:ClientOperation>\r
+         <clientId>9999</clientId>\r
+         <month>9</month>\r
+         <year>2024</year>\r
+      </cli:ClientOperation>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client/ClientPortType/input1"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c71a3510-4972-4e30-a617-e02b9f8088dc" name="Numero5"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5050/ClientService/ClientPort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <cli:ClientOperation>\r
+         <clientId>2</clientId>\r
+         <month>9</month>\r
+         <year>2024</year>\r
+      </cli:ClientOperation>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client/ClientPortType/input1"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

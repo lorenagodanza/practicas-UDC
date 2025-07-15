@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WizardCorrelationProperties.wsdl" targetNamespace="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:ns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" xmlns:ns1="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" xmlns:tns="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:ns2="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro">
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" location="Client.wsdl"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" location="Espera.wsdl"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" location="EsperaCobro.wsdl"/>
+    <vprop:property name="wzrd_prop_byte_byte" type="xsd:byte"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_byte_byte" messageType="ns:ClientOperationRequest" part="month"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_byte_byte" messageType="ns1:EsperaOperationRequest" part="month"/>
+    <vprop:property name="wzrd_prop_int_int" type="xsd:int"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_int_int" messageType="ns:ClientOperationRequest" part="year"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_int_int" messageType="ns1:EsperaOperationRequest" part="year"/>
+    <vprop:property name="wzrd_prop_long_long" type="xsd:long"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_long_long" messageType="ns:ClientOperationRequest" part="clientId"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_long_long" messageType="ns1:EsperaOperationRequest" part="clientId"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_byte_byte" messageType="ns2:EsperaCobroOperationRequest" part="month"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_int_int" messageType="ns2:EsperaCobroOperationRequest" part="year"/>
+    <vprop:propertyAlias propertyName="tns:wzrd_prop_long_long" messageType="ns2:EsperaCobroOperationRequest" part="clientId"/>
+</definitions>

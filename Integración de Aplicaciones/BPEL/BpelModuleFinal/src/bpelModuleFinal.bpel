@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="bpelModuleFinal"
+    targetNamespace="http://enterprise.netbeans.org/bpel/BpelModuleFinal/bpelModuleFinal"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/BpelModuleFinal/bpelModuleFinal"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:ns0="http://rs.udc.es/billing" xmlns:ns1="http://rs.udc.es/rating" xmlns:ns3="http://rs.udc.es/telco" xmlns:ns2="http://rs.udc.es/reward" xmlns:ns4="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:ns5="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+    <import namespace="http://rs.udc.es/billing" location="BillingService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://rs.udc.es/rating" location="RatingService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://rs.udc.es/telco" location="TelcoService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://rs.udc.es/reward" location="RewardService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://rs.udc.es/telco" location="TelcoService.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://rs.udc.es/billing" location="BillingService.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://rs.udc.es/reward" location="RewardService.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://rs.udc.es/rating" location="RatingService.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" location="Client.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/TelcoServiceWrapper" location="TelcoServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/RatingServiceWrapper" location="RatingServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/BillingServiceWrapper" location="BillingServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/RewardServiceWrapper" location="RewardServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" location="WizardCorrelationProperties.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" location="Espera.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" location="EsperaCobro.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="TelcoServicePartnerLink" xmlns:tns="http://enterprise.netbeans.org/bpel/TelcoServiceWrapper" partnerLinkType="tns:TelcoProviderLinkType" partnerRole="TelcoProviderRole"/>
+        <partnerLink name="RatingServicePartnerLink" xmlns:tns="http://enterprise.netbeans.org/bpel/RatingServiceWrapper" partnerLinkType="tns:RatingProviderLinkType" partnerRole="RatingProviderRole"/>
+        <partnerLink name="BillingServiceParnerLink" xmlns:tns="http://enterprise.netbeans.org/bpel/BillingServiceWrapper" partnerLinkType="tns:BillingProviderLinkType" partnerRole="BillingProviderRole"/>
+        <partnerLink name="RewardServicePartnerLink" xmlns:tns="http://enterprise.netbeans.org/bpel/RewardServiceWrapper" partnerLinkType="tns:RewardProviderLinkType" partnerRole="RewardProviderRole"/>
+        <partnerLink name="ClientPartnerLink" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" partnerLinkType="tns:Client" myRole="ClientPortTypeRole"/>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" partnerLinkType="tns:Espera" myRole="EsperaPortTypeRole"/>
+        <partnerLink name="PartnerLink2" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" partnerLinkType="tns:EsperaCobro" myRole="EsperaCobroPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="Fault2FaultVar" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" messageType="tns:ClientOperationFault"/>
+        <variable name="Fault1FaultVar" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" messageType="tns:ClientOperationFault"/>
+        <variable name="PendingPoints" type="xs:int"/>
+        <variable name="GetPendingPointsOut" messageType="ns2:getPendingPointsResponse"/>
+        <variable name="GetPendingPointsIn" messageType="ns2:getPendingPoints"/>
+        <variable name="ConfirmPendingPointsOut" messageType="ns2:confirmPendingPointsResponse"/>
+        <variable name="ConfirmPendingPointsIn" messageType="ns2:confirmPendingPoints"/>
+        <variable name="RemovePendingPointsOut" messageType="ns2:removePendingPointsResponse"/>
+        <variable name="RemovePendingPointsIn" messageType="ns2:removePendingPoints"/>
+        <variable name="EsperaCobroOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" messageType="tns:EsperaCobroOperationRequest"/>
+        <variable name="AddPendingPointsOut" messageType="ns2:addPendingPointsResponse"/>
+        <variable name="AddPendingPointsIn" messageType="ns2:addPendingPoints"/>
+        <variable name="ChangeStatusOut1" messageType="ns3:changeStatusResponse"/>
+        <variable name="ChangeStatusIn" messageType="ns3:changeStatus"/>
+        <variable name="EsperaOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" messageType="tns:EsperaOperationRequest"/>
+        <variable name="ClientOperationEsperaIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" messageType="tns:ClientOperation1Request"/>
+        <variable name="ChangeStatusOut" messageType="ns3:changeStatusResponse"/>
+        <variable name="ListapoForEach" type="ns0:pricedPhoneCallsList">
+            <sxed:editor>
+                <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+            </sxed:editor>
+        </variable>
+        <variable name="GetPointsOut" messageType="ns2:getPointsResponse"/>
+        <variable name="GetPointsIn" messageType="ns2:getPoints"/>
+        <variable name="CreateAndSendBillOut" messageType="ns0:createAndSendBillResponse"/>
+        <variable name="CreateAndSendBillIn" messageType="ns0:createAndSendBill"/>
+        <variable name="GetDiscountOut" messageType="ns1:getDiscountResponse"/>
+        <variable name="GetDiscountIn" messageType="ns1:getDiscount"/>
+        <variable name="FindCallsToBillOut" messageType="ns3:findCallsToBillResponse">
+            <sxed:editor>
+                <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+            </sxed:editor>
+        </variable>
+        <variable name="FindCallsToBillIn" messageType="ns3:findCallsToBill"/>
+        <variable name="ClientOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" messageType="tns:ClientOperationResponse"></variable>
+        <variable name="ClientOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" messageType="tns:ClientOperationRequest"/>
+    </variables>
+    <correlationSets>
+        <correlationSet name="wzrd_set_Receive1_Receive2" properties="ns4:wzrd_prop_byte_byte"/>
+        <correlationSet name="wzrd_set_Receive1_Receive2_1" properties="ns4:wzrd_prop_long_long"/>
+        <correlationSet name="wzrd_set_Receive1_Receive2_2" properties="ns4:wzrd_prop_int_int"/>
+        <correlationSet name="wzrd_set_Receive1_Receive2_3" properties="ns4:wzrd_prop_byte_byte"/>
+        <correlationSet name="wzrd_set_Receive1_Receive2_4" properties="ns4:wzrd_prop_int_int"/>
+        <correlationSet name="wzrd_set_Receive1_Receive2_5" properties="ns4:wzrd_prop_long_long"/>
+        <correlationSet name="wzrd_set_Receive1_Receive3" properties="ns4:wzrd_prop_byte_byte"/>
+        <correlationSet name="wzrd_set_Receive1_Receive3_1" properties="ns4:wzrd_prop_int_int"/>
+        <correlationSet name="wzrd_set_Receive1_Receive3_2" properties="ns4:wzrd_prop_long_long"/>
+    </correlationSets>
+    <faultHandlers>
+        <catch faultVariable="IdNoExistentes" faultName="ns3:TelcoException" faultElement="ns3:TelcoException">
+            <sequence name="Sequence4">
+                <assign name="Assign16">
+                    <copy>
+                        <from>'Id no existente o llamadas ya facturadas'</from>
+                        <to variable="Fault1FaultVar" part="mensaje"/>
+                    </copy>
+                </assign>
+                <reply name="Reply2" partnerLink="ClientPartnerLink" operation="ClientOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" portType="tns:ClientPortType" faultName="tns:fault1" variable="Fault1FaultVar"/>
+                <exit name="Exit1"/>
+            </sequence>
+        </catch>
+        <catch faultName="ns3:TelcoException" faultVariable="LlamadasFacturadas" faultElement="ns3:TelcoException">
+            <sequence name="Sequence5">
+                <assign name="Assign17">
+                    <copy>
+                        <from>'Llamadas ya facturadas'</from>
+                        <to variable="Fault2FaultVar" part="mensaje"/>
+                    </copy>
+                </assign>
+                <reply name="Reply3" partnerLink="ClientPartnerLink" operation="ClientOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" portType="tns:ClientPortType" faultName="tns:fault2" variable="Fault2FaultVar"/>
+                <exit name="Exit2"/>
+            </sequence>
+        </catch>
+    </faultHandlers>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="ClientPartnerLink" operation="ClientOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" portType="tns:ClientPortType" variable="ClientOperationIn">
+            <correlations>
+                <correlation set="wzrd_set_Receive1_Receive2" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive2_1" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive2_2" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive2_3" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive2_4" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive2_5" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive3" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive3_1" initiate="yes"/>
+                <correlation set="wzrd_set_Receive1_Receive3_2" initiate="yes"/>
+            </correlations>
+        </receive>
+        <assign name="Assign1">
+            <copy>
+                <from variable="ClientOperationIn" part="clientId"/>
+                <to>$FindCallsToBillIn.parameters/customerId</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="month"/>
+                <to>$FindCallsToBillIn.parameters/month</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="year"/>
+                <to>$FindCallsToBillIn.parameters/year</to>
+            </copy>
+            <copy>
+                <from>1</from>
+                <to variable="ClientOperationOut" part="idBill"/>
+            </copy>
+            <copy>
+                <from>0</from>
+                <to variable="ClientOperationOut" part="totalBilled"/>
+            </copy>
+            <copy>
+                <from>false()</from>
+                <to variable="ClientOperationOut" part="isBilled"/>
+            </copy>
+            <copy>
+                <from>''</from>
+                <to variable="ClientOperationOut" part="pricedPhoneCallsList"/>
+            </copy>
+            <copy>
+                <from>0</from>
+                <to variable="PendingPoints"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke1" partnerLink="TelcoServicePartnerLink" operation="findCallsToBill" portType="ns3:TelcoProvider" inputVariable="FindCallsToBillIn" outputVariable="FindCallsToBillOut"></invoke>
+        <flow name="Flow1">
+            <scope name="Scope2">
+                <faultHandlers>
+                    <catch faultElement="ns1:RatingException" faultVariable="ExceptionDiscount" faultName="ns1:RatingException">
+                        <assign name="Assign15">
+                            <copy>
+                                <from>0</from>
+                                <to>$GetDiscountOut.parameters/return</to>
+                            </copy>
+                        </assign>
+                    </catch>
+                </faultHandlers>
+                <sequence name="FlowSequence">
+                    <assign name="Assign3">
+                            <copy>
+                                    <from variable="ClientOperationIn" part="clientId"/>
+                                        <to>$GetDiscountIn.parameters/customerId</to>
+                                </copy>
+                                <copy>
+                                    <from variable="ClientOperationIn" part="month"/>
+                                        <to>$GetDiscountIn.parameters/month</to>
+                                </copy>
+                                <copy>
+                                    <from variable="ClientOperationIn" part="year"/>
+                                        <to>$GetDiscountIn.parameters/year</to>
+                                </copy>
+                        </assign>
+                        <invoke name="Invoke2" partnerLink="RatingServicePartnerLink" operation="getDiscount" portType="ns1:RatingProvider" inputVariable="GetDiscountIn" outputVariable="GetDiscountOut"></invoke>
+                </sequence>
+            </scope>
+            <forEach name="ForEach1" parallel="no" counterName="ForEach1Counter">
+                <startCounterValue>1</startCounterValue>
+                <finalCounterValue>count($FindCallsToBillOut.parameters/return)</finalCounterValue>
+                <completionCondition>
+                    <branches>count($FindCallsToBillOut.parameters/return)</branches>
+                </completionCondition>
+                <scope name="Scope1">
+                    <variables>
+                        <variable name="GetPhoneCallPriceOut" messageType="ns1:getPhoneCallPriceResponse"/>
+                        <variable name="GetPhoneCallPriceIn" messageType="ns1:getPhoneCallPrice"/>
+                    </variables>
+                    <sequence name="Sequence1">
+                        <assign name="Assign4">
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/destinationNumber
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$GetPhoneCallPriceIn.parameters/phoneCall/destinationNumber</to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/duration
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$GetPhoneCallPriceIn.parameters/phoneCall/duration</to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/phoneCallId
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$GetPhoneCallPriceIn.parameters/phoneCall/phoneCallId</to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/phoneCallType
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$GetPhoneCallPriceIn.parameters/phoneCall/phoneCallType</to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/startDate
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$GetPhoneCallPriceIn.parameters/phoneCall/startDate</to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/destinationNumber
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/destinationNumber
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/customerId
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/customerId
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/duration
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/duration
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/phoneCallId
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/phoneCallId
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/phoneCallType
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/phoneCallType
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                            <copy>
+                                <from>$FindCallsToBillOut.parameters/return[$ForEach1Counter]/startDate
+                                    <sxed:editor>
+                                        <sxed:predicate path="$FindCallsToBillOut.parameters/return[$ForEach1Counter]" source="from"/>
+                                    </sxed:editor>
+                                </from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/startDate
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                        </assign>
+                        <invoke name="Invoke3" partnerLink="RatingServicePartnerLink" operation="getPhoneCallPrice" portType="ns1:RatingProvider" inputVariable="GetPhoneCallPriceIn" outputVariable="GetPhoneCallPriceOut"/>
+                        <assign name="Assign5">
+                            <copy>
+                                <from>$GetPhoneCallPriceOut.parameters/return</from>
+                                <to>$ListapoForEach/priced-call[$ForEach1Counter]/price
+                                    <sxed:editor>
+                                        <sxed:predicate path="$ListapoForEach/priced-call[$ForEach1Counter]" source="to"/>
+                                    </sxed:editor>
+                                </to>
+                            </copy>
+                        </assign>
+                    </sequence>
+                </scope>
+            </forEach>
+        </flow>
+        <assign name="Assign6">
+            <copy>
+                <from>$ListapoForEach/priced-call</from>
+                <to>$ClientOperationOut.pricedPhoneCallsList/priced-call</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="clientId"/>
+                <to>$CreateAndSendBillIn.parameters/customerId</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="month"/>
+                <to>$CreateAndSendBillIn.parameters/month</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="year"/>
+                <to>$CreateAndSendBillIn.parameters/year</to>
+            </copy>
+            <copy>
+                <from>$ListapoForEach/priced-call</from>
+                <to>$CreateAndSendBillIn.parameters/priced-call</to>
+            </copy>
+            <copy>
+                <from>$GetDiscountOut.parameters/return</from>
+                <to>$CreateAndSendBillIn.parameters/discount</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke4" partnerLink="BillingServiceParnerLink" operation="createAndSendBill" portType="ns0:BillingProvider" inputVariable="CreateAndSendBillIn" outputVariable="CreateAndSendBillOut"/>
+        <receive name="Receive2" createInstance="no" partnerLink="PartnerLink1" operation="EsperaOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" portType="tns:EsperaPortType" variable="EsperaOperationIn">
+            <correlations>
+                <correlation set="wzrd_set_Receive1_Receive2_1" initiate="no"/>
+                <correlation set="wzrd_set_Receive1_Receive2_2" initiate="no"/>
+                <correlation set="wzrd_set_Receive1_Receive2" initiate="no"/>
+            </correlations>
+        </receive>
+        <assign name="Assign8">
+            <copy>
+                <from variable="ClientOperationIn" part="clientId"/>
+                <to>$ChangeStatusIn.parameters/customerId</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="month"/>
+                <to>$ChangeStatusIn.parameters/month</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="year"/>
+                <to>$ChangeStatusIn.parameters/year</to>
+            </copy>
+            <copy>
+                <from>'BILLED'</from>
+                <to>$ChangeStatusIn.parameters/newPhoneCallStatus</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke5" partnerLink="TelcoServicePartnerLink" operation="changeStatus" portType="ns3:TelcoProvider" inputVariable="ChangeStatusIn" outputVariable="ChangeStatusOut"/>
+        <assign name="Assign9">
+            <copy>
+                <from>round(0.1 * $CreateAndSendBillOut.parameters/return/amount)</from>
+                <to>$AddPendingPointsIn.parameters/points</to>
+            </copy>
+            <copy>
+                <from variable="ClientOperationIn" part="clientId"/>
+                <to>$AddPendingPointsIn.parameters/customerId</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke6" partnerLink="RewardServicePartnerLink" operation="addPendingPoints" portType="ns2:RewardProvider" inputVariable="AddPendingPointsIn" outputVariable="AddPendingPointsOut"/>
+        <receive name="Receive3" createInstance="no" partnerLink="PartnerLink2" operation="EsperaCobroOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" portType="tns:EsperaCobroPortType" variable="EsperaCobroOperationIn">
+            <correlations>
+                <correlation set="wzrd_set_Receive1_Receive3" initiate="no"/>
+                <correlation set="wzrd_set_Receive1_Receive3_1" initiate="no"/>
+                <correlation set="wzrd_set_Receive1_Receive3_2" initiate="no"/>
+            </correlations>
+        </receive>
+        <assign name="Assign12">
+            <copy>
+                <from variable="ClientOperationIn" part="clientId"/>
+                <to>$GetPendingPointsIn.parameters/customerId</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke10" partnerLink="RewardServicePartnerLink" operation="getPendingPoints" portType="ns2:RewardProvider" inputVariable="GetPendingPointsIn" outputVariable="GetPendingPointsOut"/>
+        <assign name="Assign13">
+            <copy>
+                <from>number($GetPendingPointsOut.parameters/return)</from>
+                <to variable="PendingPoints"/>
+            </copy>
+        </assign>
+        <if name="If1">
+            <condition>$EsperaCobroOperationIn.iscobrado</condition>
+            <sequence name="Sequence2">
+                <assign name="Assign10">
+                        <copy>
+                        <from>'PAID'</from>
+                            <to>$ChangeStatusIn.parameters/newPhoneCallStatus</to>
+                    </copy>
+                    <copy>
+                        <from variable="EsperaCobroOperationIn" part="clientId"/>
+                        <to>$ChangeStatusIn.parameters/customerId</to>
+                    </copy>
+                    <copy>
+                        <from variable="EsperaCobroOperationIn" part="month"/>
+                        <to>$ChangeStatusIn.parameters/month</to>
+                    </copy>
+                    <copy>
+                        <from variable="EsperaCobroOperationIn" part="year"/>
+                        <to>$ChangeStatusIn.parameters/year</to>
+                    </copy>
+                    <copy>
+                        <from variable="ClientOperationIn" part="clientId"/>
+                        <to>$ConfirmPendingPointsIn.parameters/customerId</to>
+                    </copy>
+                    <copy>
+                        <from variable="PendingPoints"/>
+                        <to>$ConfirmPendingPointsIn.parameters/points</to>
+                    </copy>
+                </assign>
+                <invoke name="Invoke7" partnerLink="TelcoServicePartnerLink" operation="changeStatus" portType="ns3:TelcoProvider" inputVariable="ChangeStatusIn" outputVariable="ChangeStatusOut"/>
+                <invoke name="Invoke8" partnerLink="RewardServicePartnerLink" operation="confirmPendingPoints" portType="ns2:RewardProvider" outputVariable="ConfirmPendingPointsOut" inputVariable="ConfirmPendingPointsIn"/>
+            </sequence>
+            <else>
+                <sequence name="Sequence3">
+                    <assign name="Assign11">
+                        <copy>
+                            <from variable="ClientOperationIn" part="clientId"/>
+                            <to>$RemovePendingPointsIn.parameters/customertId</to>
+                        </copy>
+                        <copy>
+                            <from variable="PendingPoints"/>
+                            <to>$RemovePendingPointsIn.parameters/points</to>
+                        </copy>
+                    </assign>
+                    <invoke name="Invoke9" partnerLink="RewardServicePartnerLink" operation="removePendingPoints" portType="ns2:RewardProvider" inputVariable="RemovePendingPointsIn" outputVariable="RemovePendingPointsOut"/>
+                </sequence>
+            </else>
+        </if>
+        <assign name="Assign14">
+            <copy>
+                <from>$CreateAndSendBillOut.parameters/return/amount</from>
+                <to variable="ClientOperationOut" part="totalBilled"/>
+            </copy>
+            <copy>
+                <from>$CreateAndSendBillOut.parameters/return/billId</from>
+                <to variable="ClientOperationOut" part="idBill"/>
+            </copy>
+            <copy>
+                <from variable="EsperaCobroOperationIn" part="iscobrado"/>
+                <to variable="ClientOperationOut" part="isBilled"/>
+            </copy>
+        </assign>
+        <reply name="Reply1" partnerLink="ClientPartnerLink" operation="ClientOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" portType="tns:ClientPortType" variable="ClientOperationOut"/>
+    </sequence>
+</process>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://rs.udc.es/billing" xmlns:ns2="http://rs.udc.es/telco" xmlns:ns3="http://rs.udc.es/rating" xmlns:ns4="http://rs.udc.es/reward" xmlns:ns5="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Espera" xmlns:ns6="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" xmlns:ns7="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/Client" xmlns:ns8="http://enterprise.netbeans.org/bpel/BpelModuleFinal/bpelModuleFinal" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="BillingProviderPort" interface-name="ns1:BillingProvider" name="endpoint1" service-name="ns1:BillingProviderService"/>
+        <endpoint endpoint-name="TelcoProviderPort" interface-name="ns2:TelcoProvider" name="endpoint2" service-name="ns2:TelcoProviderService"/>
+        <endpoint endpoint-name="RatingProviderPort" interface-name="ns3:RatingProvider" name="endpoint3" service-name="ns3:RatingProviderService"/>
+        <endpoint endpoint-name="RewardProviderPort" interface-name="ns4:RewardProvider" name="endpoint4" service-name="ns4:RewardProviderService"/>
+        <endpoint endpoint-name="EsperaPort" interface-name="ns5:EsperaPortType" name="endpoint5" service-name="ns5:EsperaService"/>
+        <endpoint endpoint-name="EsperaCobroPort" interface-name="ns6:EsperaCobroPortType" name="endpoint6" service-name="ns6:EsperaCobroService"/>
+        <endpoint endpoint-name="ClientPort" interface-name="ns7:ClientPortType" name="endpoint7" service-name="ns7:ClientService"/>
+        <endpoint display-name="ClientPartnerLink" endpoint-name="ClientPortTypeRole_myRole" file-path="bpelModuleFinal.bpel" interface-name="ns7:ClientPortType" name="endpoint8" process-name="bpelModuleFinal" service-name="ns8:ClientPartnerLink"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="EsperaPortTypeRole_myRole" file-path="bpelModuleFinal.bpel" interface-name="ns5:EsperaPortType" name="endpoint9" process-name="bpelModuleFinal" service-name="ns8:PartnerLink1"/>
+        <endpoint display-name="PartnerLink2" endpoint-name="EsperaCobroPortTypeRole_myRole" file-path="bpelModuleFinal.bpel" interface-name="ns6:EsperaCobroPortType" name="endpoint10" process-name="bpelModuleFinal" service-name="ns8:PartnerLink2"/>
+        <endpoint display-name="TelcoServicePartnerLink" endpoint-name="TelcoProviderRole_partnerRole" file-path="bpelModuleFinal.bpel" interface-name="ns2:TelcoProvider" name="endpoint11" process-name="bpelModuleFinal" service-name="ns8:TelcoServicePartnerLink"/>
+        <endpoint display-name="RatingServicePartnerLink" endpoint-name="RatingProviderRole_partnerRole" file-path="bpelModuleFinal.bpel" interface-name="ns3:RatingProvider" name="endpoint12" process-name="bpelModuleFinal" service-name="ns8:RatingServicePartnerLink"/>
+        <endpoint display-name="BillingServiceParnerLink" endpoint-name="BillingProviderRole_partnerRole" file-path="bpelModuleFinal.bpel" interface-name="ns1:BillingProvider" name="endpoint13" process-name="bpelModuleFinal" service-name="ns8:BillingServiceParnerLink"/>
+        <endpoint display-name="RewardServicePartnerLink" endpoint-name="RewardProviderRole_partnerRole" file-path="bpelModuleFinal.bpel" interface-name="ns4:RewardProvider" name="endpoint14" process-name="bpelModuleFinal" service-name="ns8:RewardServicePartnerLink"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="BpelModuleFinal.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="BpelModuleFinalCompositApplication-BpelModuleFinal" unit-name="BpelModuleFinal" unknown="false" x="145" y="99">
+            <provides endpoint="endpoint8"/>
+            <provides endpoint="endpoint9"/>
+            <provides endpoint="endpoint10"/>
+            <consumes endpoint="endpoint11"/>
+            <consumes endpoint="endpoint12"/>
+            <consumes endpoint="endpoint13"/>
+            <consumes endpoint="endpoint14"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="BpelModuleFinalCompositApplication-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port x="67" y="513">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/BillingService.wsdl#xpointer(/definitions/service[@name='BillingProviderService']/port[@name='BillingProviderPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+                <port x="67" y="434">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Client.wsdl#xpointer(/definitions/service[@name='ClientService']/port[@name='ClientPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint7"/>
+                    <provides endpoint="endpoint7"/>
+                </port>
+                <port x="67" y="355">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Espera.wsdl#xpointer(/definitions/service[@name='EsperaService']/port[@name='EsperaPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint5"/>
+                    <provides endpoint="endpoint5"/>
+                </port>
+                <port x="67" y="276">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/EsperaCobro.wsdl#xpointer(/definitions/service[@name='EsperaCobroService']/port[@name='EsperaCobroPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint6"/>
+                    <provides endpoint="endpoint6"/>
+                </port>
+                <port x="67" y="197">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RatingService.wsdl#xpointer(/definitions/service[@name='RatingProviderService']/port[@name='RatingProviderPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="118">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RewardService.wsdl#xpointer(/definitions/service[@name='RewardProviderService']/port[@name='RewardProviderPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint4"/>
+                    <provides endpoint="endpoint4"/>
+                </port>
+                <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/BpelModuleFinal/TelcoService.wsdl#xpointer(/definitions/service[@name='TelcoProviderService']/port[@name='TelcoProviderPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint5" mode="" provider="endpoint9" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint13" mode="" provider="endpoint1" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint11" mode="" provider="endpoint2" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint6" mode="" provider="endpoint10" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint7" mode="" provider="endpoint8" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint12" mode="" provider="endpoint3" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint14" mode="" provider="endpoint4" route-type="" routing-rule="" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/BillingService.wsdl#xpointer(/definitions/portType[@name='BillingProvider'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Client.wsdl#xpointer(/definitions/portType[@name='ClientPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Espera.wsdl#xpointer(/definitions/portType[@name='EsperaPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/EsperaCobro.wsdl#xpointer(/definitions/portType[@name='EsperaCobroPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RatingService.wsdl#xpointer(/definitions/portType[@name='RatingProvider'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RewardService.wsdl#xpointer(/definitions/portType[@name='RewardProvider'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/TelcoService.wsdl#xpointer(/definitions/portType[@name='TelcoProvider'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/BillingService.wsdl#xpointer(/definitions/binding[@name='BillingProviderPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Client.wsdl#xpointer(/definitions/binding[@name='ClientBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Espera.wsdl#xpointer(/definitions/binding[@name='EsperaBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/EsperaCobro.wsdl#xpointer(/definitions/binding[@name='EsperaCobroBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RatingService.wsdl#xpointer(/definitions/binding[@name='RatingProviderPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RewardService.wsdl#xpointer(/definitions/binding[@name='RewardProviderPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/TelcoService.wsdl#xpointer(/definitions/binding[@name='TelcoProviderPortBinding'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/BillingService.wsdl#xpointer(/definitions/service[@name='BillingProviderService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Client.wsdl#xpointer(/definitions/service[@name='ClientService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/Espera.wsdl#xpointer(/definitions/service[@name='EsperaService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/EsperaCobro.wsdl#xpointer(/definitions/service[@name='EsperaCobroService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RatingService.wsdl#xpointer(/definitions/service[@name='RatingProviderService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/RewardService.wsdl#xpointer(/definitions/service[@name='RewardProviderService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModuleFinal/TelcoService.wsdl#xpointer(/definitions/service[@name='TelcoProviderService'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="EsperaCobro" targetNamespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="EsperaCobroOperationRequest">
+        <part name="clientId" type="xsd:long"/>
+        <part name="month" type="xsd:byte"/>
+        <part name="year" type="xsd:int"/>
+        <part name="iscobrado" type="xsd:boolean"/>
+    </message>
+    <portType name="EsperaCobroPortType">
+        <operation name="EsperaCobroOperation">
+            <input name="input1" message="tns:EsperaCobroOperationRequest"/>
+        </operation>
+    </portType>
+    <binding name="EsperaCobroBinding" type="tns:EsperaCobroPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="EsperaCobroOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/BpelModuleFinal/src/EsperaCobro"/>
+            </input>
+        </operation>
+    </binding>
+    <service name="EsperaCobroService">
+        <port name="EsperaCobroPort" binding="tns:EsperaCobroBinding">
+            <soap:address location="http://localhost:5050/EsperaCobroService/EsperaCobroPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="EsperaCobro">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="EsperaCobroPortTypeRole" portType="tns:EsperaCobroPortType"/>
+    </plnk:partnerLinkType>
+</definitions>
