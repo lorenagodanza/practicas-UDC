@@ -1,0 +1,201 @@
+INFORME TXT PRÁCTICA 3 ALGORITMOS  (ÁRBOLES BINARIOS DE BÚSQUEDA)
+
+
+AUTORES:
+
+Lorena Godón Danza —> lorena.godon@udc.es
+
+Marta Vidal López —> marta.vidal.lopez@udc.es
+
+
+
+MAQUINA DONDE SE REALIZARON LAS MEDICIONES:
+
+Ordenador: MSI Modern 14 B11SB
+
+Procesador: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8
+
+Sistema Operativo: Ubuntu 22.04.1 LTS
+
+Memoria: 16,0 GiB
+
+
+************INTRODUCCIÓN************
+
+
+El objetivo de esta práctica es estudiar la complejidad computacional de las operaciones insertar y 
+
+buscar en árboles binarios de búsqueda de números enteros y con un campo de frecuencia de apariciones.
+
+Se han implementado en C todas las operaciones requeridas para trabajar con dichos árboles binarios de 
+
+búsqueda (crear un árbol, comprobar si está vacío o no, buscar un elemento, eliminar el árbol, obtener 
+
+el elemento de una posición dada, obtener la altura del árbol...). También se ha implementado una 
+
+función que permite visualizar el contenido del árbol.
+
+
+Tras verificar el correcto funcionamiento de las diversas funciones a través de un test, hemos medido 
+
+los tiempos de ejecucuón de las funciones INSERTAR y BUSCAR. Para esto hemos usado como datos, 
+
+el contenido de un vector inicializado de forma pseudoaleatoria. Hemos calculado así, de forma empírica,
+
+la complejidad de dichas funciones.
+
+
+En esta práctica no se ha hallado el promedio de 1000 mediciones para los tiempos pequeños, ya que no 
+
+es complicado medir de forma separada el tiempo empleado por la función eliminarArbol() en cada iteración 
+
+para restarselo al promedio. De este modo, se han descartado todos aquellos casos en los que el tiempo de 
+
+ejecucion era menor de 500 µs.
+
+Todos los tiempos han sido medidos en microsegundos (µs).
+
+
+MEDICION DE TIEMPOS
+
+         n   t_ins(n)   t_bus(n)
+      8000       1171        980
+     16000       2603       2344
+     32000       6127       5684
+     64000      13576      12466
+    128000      30907      28267
+    256000      69187      63878
+    
+    
+El tiempo de ejecucion de la funcion insertar es ligeramente superior al de la funcion buscar ya que, a 
+
+pesar de que en ambas de debe localizar la posicion adecuada, en la función insertar se debe crear un nodo 
+
+llamando a la función crearnodo(), que es la causa de esta ligera variación.
+
+
+
+Insercion de n elementos
+
+         n            t(n)          t(n)/n     t(n)/n^1.18      t(n)/n^1.5
+      8000        1171.000        0.146375        0.029034        0.001637
+     16000        2603.000        0.162688        0.028485        0.001286
+     32000        6127.000        0.191469        0.029592        0.001070
+     64000       13576.000        0.212125        0.028939        0.000838
+    128000       30907.000        0.241461        0.029077        0.000675
+    256000       69187.000        0.270262        0.028728        0.000534
+
+
+
+	>> Cota subestimada --> n    
+	
+	>> Cota ajustada --> n^(1.18)   		Cte. = [0.028485 , 0.029592]
+	
+	>> Cota sobrestimada --> n^(1.4)
+
+
+La complejidad de la función insertar tiende a O(n^(1.18)). Podemos pensar que la diferencia con la 
+
+complejidad teórica en los casos medios (O(log n)) se debe a que los árboles resultantes de la ejecución 
+
+del código pueden estár desbalanceados ya que se están usando como datos de entrada el contenido de vectores 
+
+inicializados de forma pseudoaleatoria.
+
+
+La cota subestimada tiende a crecer cuando n aumenta, mientras que si observamos la cota sobreestimada, 
+
+podemos ver que esta disminuye a medida que aumenta n. La sucesión de la cota ajustada varía entre los 
+
+valores [0.028485 , 0.029592].
+
+
+
+
+Busqueda de n elementos
+
+
+         n            t(n)          t(n)/n      t(n)/n^1.2      t(n)/n^1.5
+      8000         980.000        0.122500        0.020301        0.001370
+     16000        2344.000        0.146500        0.021136        0.001158
+     32000        5684.000        0.177625        0.022309        0.000993
+     64000       12466.000        0.194781        0.021297        0.000770
+    128000       28267.000        0.220836        0.021020        0.000617
+    256000       63878.000        0.249523        0.020676        0.000493
+
+
+
+	>> Cota subestimada --> n    
+	
+	>> Cota ajustada --> n^(1.2)   		Cte. = [0.020301 , 0.022309]
+	
+	>> Cota sobrestimada --> n^(1.4)
+
+
+La complejidad de la función buscar tiende a O(n^(1.2)). Al igual que en la función insertar, la diferencia 
+
+con la complejidad teórica en los casos medios (O(log n)) se puede deber a que los árboles resultantes puedan 
+
+estar desbalanceados, ya que los vectores se inicializan de forma pseudoaleatoria.
+
+
+En este caso, la cota subestimada también crece cuando n lo hago, mientras que la cota sobreestimada decrece 
+
+a medida que aumentamos el valor de n. La sucesión de la cota ajustada en esta función varía entre los valores [0.020301 , 0.022309].
+
+
+
+
+
+
+*****CONCLUSIÓN*****
+
+No hemos detectado valores anómalos en las mediciones de los tiempos. Se ha ejecutado el código varias veces para
+
+obtener los mejores resultados.
+
+
+Tras analizar los datos obtenidos al ejecutar ambos algoritmos observamos que su complejidad es similar. 
+
+Como ya se ha explicado esta comlejidad es distinta a la teorica debido a que los árboles construidos tienden a ser
+
+árboles desbalanceados en los casos medios. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

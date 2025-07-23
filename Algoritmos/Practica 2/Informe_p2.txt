@@ -1,0 +1,463 @@
+INFORME TXT PRÁCTICA 2 ALGORITMOS  (INSERCIÓN Y QUICKSORT)
+
+
+AUTORES:
+
+Lorena Godón Danza —> lorena.godon@udc.es
+
+
+MAQUINA DONDE SE REALIZARON LAS MEDICIONES:
+
+Ordenador: MSI Modern 14 B11SB
+
+Procesador: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8
+
+Sistema Operativo: Ubuntu 22.04.1 LTS
+
+Memoria: 16,0 GiB
+
+
+
+
+INTRODUCCIÓN:
+
+Esta práctica tiene como objetivo comparar la complejidad computacional de dos algoritmos de ordenación aplicados a vectores con distintas inicializaciones.
+
+Tras implementar los algoritmos en C y verificar su correcto funcionamiento, hemos medido los tiempos de ejecución de los algoritmos sobre tres tipos de vectores: 
+aleatorios, ordenados ascendente y descendentemente. De esta manera hemos podido calcular la complejidad empírica de dichos algortimos.
+
+
+BREVE DESCRIPCIÓN DE LOS ALGORITMOS:
+
+—INSERCIÓN: inicialmente se tiene un solo elemento, que obviamente es un conjunto ordenado. 
+Después, cuando hay k elementos ordenados de menor a mayor, se toma el elemento k + 1 y se compara con todos los elementos ya ordenados, deteniéndose cuando se 
+encuentra un elemento menor o cuando ya no se encuentran elementos. 
+En este punto se inserta k + 1 debiéndose desplazar los demás elementos.
+
+
+
+—QUICKSORT:
+
+Este algoritmo trabaja siguiendo los pasos a continuación:
+
+    -Se elige un elemento del vector a ordenar, al que llamaremos pivote.
+
+    -Resituamos los demás elementos de la lista a cada lado del pivote, de manera que a un lado queden todos los menores a él, y al otro los mayores. 
+    En este momento, el pivote ocupa la posición que le corresponderá en la lista ordenada.
+
+    -La lista queda separada en dos sublistas, sobre las que se aplicará de forma recursiva el algoritmo hasta que el vector original quede totalmente ordenado 
+    
+    
+La eficiencia de este algoritmo depende de la posición en la que termine el pivote elegido.
+
+
+********************************************************************************
+
+A continuación realizaremos un estudio de los algoritmos nombrados en tres escenarios diferentes, inicializando el vector de manera ascendente, descendente y aleatorio, 
+y en el caso del algoritmo de ordenación rápida, para cada uno de estos escenarios, lo haremos con umbral 1, 10 y 100.
+
+
+Los tiempos medidos en esta práctica están en microsegundos y la N sigue una progresión geométrica de razón 2.
+
+
+
+
+
+ALGORITMO DE ORDENACIÓN POR INSERCIÓN
+
+**Ordenación por inserción con inicialización ASCENDENTE
+
+
+ 		  n                       t                      t/c1                   t/c2                   t/c3                       k
+ 		  
+(*)	         500    	       1.009000    	       0.006994    	    0.001896407    	   0.0005822737    	        1000
+(*)	        1000    	       1.962000    	       0.007811    	    0.001831045    	   0.0004928321    	        1000
+(*)	        2000    	       3.819000    	       0.008732    	    0.001769740    	   0.0004175550    	        1000
+(*)	        4000    	       7.901000    	       0.010376    	    0.001818032    	   0.0003760192    	        1000
+(*)	        8000    	      15.725000    	       0.011861    	    0.001796676    	   0.0003257487    	        1000
+(*)	       16000    	      32.875000    	       0.014242    	    0.001865111    	   0.0002964297    	        1000
+(*)	       32000    	      65.813000    	       0.016375    	    0.001854002    	   0.0002583043    	        1000
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+Obtenemos que su complejidad es t(n) = O(n^(1.01))
+
+
+	>> Cota subestimada (c1) --> n^(0.8)    
+	
+	>> Cota ajustada (c2)  --> n^(1.01)   		Cte ∈ [0.001769, 0.001896]
+	
+	>> Cota sobrestimada (c3) --> n^(1.2)
+	
+	
+
+
+
+**Ordenación por inserción con inicialización DESCENDENTE
+
+ 		  n                       t                      t/c1                   t/c2                   t/c3                      k
+ 		  
+(*)	         500    	     229.562000    	       0.003182    	    0.000918248    	   0.0002649513    	        1000
+	        1000    	     888.000000    	       0.003535    	    0.000888000    	   0.0002230555    	           1
+	        2000    	    3858.000000    	       0.004411    	    0.000964500    	   0.0002109095    	           1
+	        4000    	   15345.000000    	       0.005038    	    0.000959062    	   0.0001825723    	           1
+	        8000    	   61115.000000    	       0.005762    	    0.000954922    	   0.0001582522    	           1
+	       16000    	  244647.000000    	       0.006624    	    0.000955652    	   0.0001378720    	           1
+	       32000    	  981779.000000    	       0.007634    	    0.000958769    	   0.0001204159    	           1
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n²)
+
+
+	>> Cota subestimada (c1) --> n^(1.8)    
+	
+	>> Cota ajustada (c2)  --> n^(2)   		Cte. = 0.00095
+	
+	>> Cota sobrestimada (c3) --> n^(2.2)
+	
+	
+	
+**Ordenación por inserción con inicialización ALEATORIA
+
+		  n                       t                      t/c1                   t/c2                   t/c3                       k
+		  
+(*)	         500    	      91.652000    	       0.001271    	    0.000390114    	   0.0001057811    	        1000
+(*)	        1000    	     359.418000    	       0.001431    	    0.000385123    	   0.0000902817    	        1000
+	        2000    	    1451.000000    	       0.001659    	    0.000391397    	   0.0000793234    	           1
+	        4000    	    5681.000000    	       0.001865    	    0.000385767    	   0.0000675916    	           1
+	        8000    	   23047.000000    	       0.002173    	    0.000393972    	   0.0000596783    	           1
+	       16000    	   90774.000000    	       0.002458    	    0.000390627    	   0.0000511561    	           1
+	       32000    	  360719.000000    	       0.002805    	    0.000390769    	   0.0000442424    	           1
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.99))
+
+
+	>> Cota subestimada (c1) --> n^(1.8)    
+	
+	>> Cota ajustada (c2)  --> n^(1.99)   		Cte. = 0.00039
+	
+	>> Cota sobrestimada (c3) --> n^(2.2)
+
+
+
+
+
+
+
+
+
+ALGORITMO DE ORDENACIÓN RÁPIDA
+
+**Ordenación rápida con inicialización ASCENDENTE (UMBRAL=1)
+
+		  n                       t                      t/c1                   t/c2                   t/c3                       k	U
+		  
+(*)	         500    	      14.731000    	       0.054848    	    0.016529435    	   0.0045663713    	        1000   	1
+(*)	        1000    	      31.332000    	       0.062516    	    0.016481173    	   0.0039444651    	        1000   	1
+(*)	        2000    	      64.837000    	       0.069326    	    0.015988110    	   0.0033150029    	        1000   	1
+(*)	        4000    	     134.291000    	       0.076947    	    0.015523703    	   0.0027884889    	        1000   	1
+(*)	        8000    	     275.897000    	       0.084716    	    0.014950979    	   0.0023266443    	        1000   	1
+	       16000    	     563.000000    	       0.092640    	    0.014302279    	   0.0019282015    	           1   	1
+	       32000    	    1174.000000    	       0.103522    	    0.013981030    	   0.0016329509    	           1  	1
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.093))
+
+
+
+	>> Cota subestimada (c1) --> n^(0.90)    
+	
+	>> Cota ajustada (c2)  --> n^(1.093)   		Cte ∈ [0.001398, 0.001652]
+	
+	>> Cota sobrestimada (c3) --> n^(1.30)
+
+
+
+**Ordenación rápida con inicialización ASCENDENTE (UMBRAL=10)
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k      U
+                  
+(*)	         500    	       6.653000    	       0.043336    	    0.007605718    	   0.0033905810    	        1000   	10
+(*)	        1000    	      14.487000    	       0.053824    	    0.007779980    	   0.0031694103    	        1000   	10
+(*)	        2000    	      31.223000    	       0.066167    	    0.007876838    	   0.0029323650    	        1000   	10
+(*)	        4000    	      66.421000    	       0.080285    	    0.007871546    	   0.0026778868    	        1000   	10
+(*)	        8000    	     140.155000    	       0.096629    	    0.007802621    	   0.0024257096    	        1000   	10
+(*)	       16000    	     297.533000    	       0.117003    	    0.007781160    	   0.0022105929    	        1000   	10
+	       32000    	     638.000000    	       0.143103    	    0.007838035    	   0.0020348749    	           1   	10
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.09))
+
+
+	>> Cota subestimada (c1) --> n^(0.81)    
+	
+	>> Cota ajustada (c2)  --> n^(1.09)   		Cte. = 0.00778
+	
+	>> Cota sobrestimada (c3) --> n^(1.22)
+
+
+
+
+**Ordenación rápida con inicialización ASCENDENTE (UMBRAL=100)
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	 U
+(*)	         500    	       2.807000    	       0.006357    	    0.001834247    	   0.0005292536    	        1000   	100
+(*)	        1000    	       6.582000    	       0.007557    	    0.001898270    	   0.0004768237    	        1000   	100
+(*)	        2000    	      15.320000    	       0.008918    	    0.001950039    	   0.0004264198    	        1000   	100
+(*)	        4000    	      34.778000    	       0.010263    	    0.001953772    	   0.0003719305    	        1000   	100
+(*)	        8000    	      77.654000    	       0.011618    	    0.001925385    	   0.0003190800    	        1000   	100
+(*)	       16000    	     171.390000    	       0.013000    	    0.001875529    	   0.0002705826    	        1000   	100
+(*)	       32000    	     376.478000    	       0.014477    	    0.001818288    	   0.0002283666    	        1000   	100
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.18))
+
+
+	>> Cota subestimada (c1) --> n^(0.98)    
+	
+	>> Cota ajustada (c2)  --> n^(1.18)   		Cte. = 0.001893
+	
+	>> Cota sobrestimada (c3) --> n^(1.38)
+
+
+
+**Ordenación rápida con inicialización DESCENDENTE (UMBRAL=1)
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	U
+                  
+(*)	         500    	      15.887000    	       0.055588    	    0.020311690    	   0.0046279770    	        1000   	1
+(*)	        1000    	      32.674000    	       0.060842    	    0.019870203    	   0.0038388603    	        1000   	1
+(*)	        2000    	      67.724000    	       0.067113    	    0.019590181    	   0.0032091743    	        1000   	1
+(*)	        4000    	     138.708000    	       0.073152    	    0.019085045    	   0.0026509585    	        1000   	1
+(*)	        8000    	     288.219000    	       0.080893    	    0.018862973    	   0.0022216453    	        1000   	1
+	       16000    	     589.000000    	       0.087976    	    0.018335750    	   0.0018311255    	           1   	1
+	       32000    	    1264.000000    	       0.100476    	    0.018716571    	   0.0015848954    	           1   	1
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.072))
+
+
+	>> Cota subestimada (c1) --> n^(0.91)    
+	
+	>> Cota ajustada (c2)  --> n^(1.072)   		Cte. = 0.01925
+	
+	>> Cota sobrestimada (c3) --> n^(1.31)
+	
+	
+	
+**Ordenación rápida con inicialización DESCENDENTE (UMBRAL=10)
+
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	U
+                  
+(*)	         500    	       8.996000    	       0.058598    	    0.011149586    	   0.0048786060    	        1000   	10
+(*)	        1000    	      18.742000    	       0.069633    	    0.011010725    	   0.0043935536    	        1000   	10
+(*)	        2000    	      38.561000    	       0.081717    	    0.010738385    	   0.0039075271    	        1000   	10
+(*)	        4000    	      80.156000    	       0.096887    	    0.010580774    	   0.0035111020    	        1000   	10
+(*)	        8000    	     169.703000    	       0.117000    	    0.010618462    	   0.0032132953    	        1000   	10
+(*)	       16000    	     351.705000    	       0.138306    	    0.010431369    	   0.0028786798    	        1000   	10
+	       32000    	     755.000000    	       0.169346    	    0.010614522    	   0.0026712558    	           1   	10
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.077))
+
+
+	>> Cota subestimada (c1) --> n^(0.81)    
+	
+	>> Cota ajustada (c2)  --> n^(1.077)   		Cte. = 0.010734
+	
+	>> Cota sobrestimada (c3) --> n^(1.21)
+	
+
+
+
+**Ordenación rápida con inicialización DESCENDENTE (UMBRAL=100)
+
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	 U
+(*)	         500    	       7.216000    	       0.017390    	    0.007898169    	   0.0014477968    	        1000   	100
+(*)	        1000    	      14.165000    	       0.017427    	    0.007247973    	   0.0010995540    	        1000   	100
+(*)	        2000    	      31.865000    	       0.020013    	    0.007622265    	   0.0009569799    	        1000   	100
+(*)	        4000    	      65.168000    	       0.020895    	    0.007287433    	   0.0007572028    	        1000   	100
+(*)	        8000    	     141.589000    	       0.023176    	    0.007401842    	   0.0006364968    	        1000   	100
+(*)	       16000    	     291.530000    	       0.024361    	    0.007124652    	   0.0005070361    	        1000   	100
+	       32000    	     631.000000    	       0.026917    	    0.007209080    	   0.0004245940    	           1   	100
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.097))
+
+
+
+	>> Cota subestimada (c1) --> n^(0.97)    
+	
+	>> Cota ajustada (c2)  --> n^(1.097)   		Cte. = 0.0075
+	
+	>> Cota sobrestimada (c3) --> n^(1.37)
+	
+	
+	
+	
+	
+**Ordenación rápida con inicialización ALEATORIA (UMBRAL=1)
+
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	U
+                  
+(*)	         500    	      40.373000    	       0.150320    	    0.043373455    	   0.0125149759    	        1000   	1
+(*)	        1000    	      82.674000    	       0.164956    	    0.041435153    	   0.0104080399    	        1000   	1
+(*)	        2000    	     178.159000    	       0.190494    	    0.041655732    	   0.0091089595    	        1000   	1
+(*)	        4000    	     381.905000    	       0.218827    	    0.041657131    	   0.0079300761    	        1000   	1
+	        8000    	     796.000000    	       0.244417    	    0.040505508    	   0.0067126822    	           1   	1
+	       16000    	    1762.000000    	       0.289933    	    0.041828657    	   0.0060346200    	           1   	1
+	       32000    	    3595.000000    	       0.317003    	    0.039813826    	   0.0050003905    	           1   	1
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.10))
+
+
+	
+	>> Cota subestimada (c1) --> n^(0.90)    
+	
+	>> Cota ajustada (c2)  --> n^(1.10)   		Cte. = 0.0416
+	
+	>> Cota sobrestimada (c3) --> n^(1.30)
+
+
+
+
+
+**Ordenación rápida con inicialización ALEATORIA (UMBRAL=10)
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k	U
+                  
+(*)	         500    	      22.054000    	       0.143655    	    0.019420183    	   0.0119600684    	        1000   	10
+(*)	        1000    	      48.709000    	       0.180971    	    0.019570829    	   0.0114185041    	        1000   	10
+(*)	        2000    	     106.752000    	       0.226226    	    0.019570867    	   0.0108175703    	        1000   	10
+(*)	        4000    	     232.061000    	       0.280500    	    0.019411999    	   0.0101650512    	        1000   	10
+	        8000    	     515.000000    	       0.355062    	    0.019656644    	   0.0097514308    	           1   	10
+	       16000    	    1085.000000    	       0.426670    	    0.018895828    	   0.0088806460    	           1   	10
+	       32000    	    2363.000000    	       0.530020    	    0.018777335    	   0.0083604999    	           1   	10
+
+	
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.132))
+	
+
+	>> Cota subestimada (c1) --> n^(0.81)    
+	
+	>> Cota ajustada (c2)  --> n^(1.132)   		Cte. = 0.019329
+	
+	>> Cota sobrestimada (c3) --> n^(1.21)
+	
+	
+	
+
+**Ordenación rápida con inicialización ALEATORIA (UMBRAL=100)
+
+
+                  n                       t                      t/c1                   t/c2                   t/c3                       k      U
+                  
+(*)	         500    	      22.386000    	       0.078327    	    0.018873379    	   0.0065211741    	        1000   	100
+(*)	        1000    	      49.345000    	       0.091885    	    0.018890487    	   0.0057975320    	        1000   	100
+(*)	        2000    	     108.191000    	       0.107215    	    0.018806933    	   0.0051267465    	        1000   	100
+(*)	        4000    	     232.748000    	       0.122747    	    0.018371289    	   0.0044482314    	        1000   	100
+	        8000    	     511.097000    	       0.143447    	    0.018318244    	   0.0039396301    	           1   	100
+	       16000    	    1145.000000    	       0.171024    	    0.018634289    	   0.0035596583    	           1   	100
+	       32000    	    2479.000000    	       0.197056    	    0.018319377    	   0.0031083510    	           1   	100
+
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+Obtenemos que su complejidad es t(n) = O(n^(1.139))
+
+
+	>> Cota subestimada (c1) --> n^(0.91)    
+	
+	>> Cota ajustada (c2)  --> n^(1.139)   		Cte. = 0.018602
+	
+	>> Cota sobrestimada (c3) --> n^(1.31)
+	
+	
+	
+	
+**************OBSERVACIONES**************
+
+Se han intentado subsanar los datos anómalos cambiando las cotas y ejecutando el algoritmo varias veces, siendo los resultados mostrados en las tablas anteriores los mejores 
+que hemos obtenido.
+
+Los datos anómalos de algunas de estas tablas pueden deberse a la inicialización del vector, siendo el peor caso la aleatoria, pero también al pivote escogido, ya que este se 
+escoge de forma aleatoria, y el umbral en el caso del algoritmo Quicksort, resultando así una progresión de datos que puede presentar valores que se salen de lo esperado.
+
+
+
+**************CONCLUSIONES**************
+
+Comparando los diferentes casos de cada algoritmo entre si, observamos que el mejor caso para el algoritmo de inserción es cuando el vector ya está ordenado, y el peor cuando este 
+está ordenado de manera descendente. El aleatorio lo situamos en un punto medio entre ambos casos. 
+Para el algoritmo de ordenación rápida, el mejor caso también será cuando el vector ya esté inicialmente ordenado, seguido del vector descendente y por último el aleatorio.
+
+
+En cuanto a la velocidad, la ordenación por el algoritmo Quicksort es notablemente más rápida que la ordenación por inserción tanto para vectores ordenados aleatoriamente como para 
+vectores ordenados descendentemente, siendo todo lo contrario para el caso en el que el vector ya está ordenado. 
+Cuando el vector ya está inicialmente ordenado, el algoritmo de inserción funciona mucho más rápido, y es por ello por lo que se usa junto con quicksort en los umbrales 10 y 100.
+
+
+En Quicksort, con un vector ordenado ascendentemente, el umbral más rápido es 100, mientras que con el umbral 1 obtenemos los peores tiempos, siendo igual para el caso en el que el 
+vector está ordenado descendentemente. 
+Por último, en el caso de los vectores aleatorios, podemos observar que el mejor umbral es el umbral 10, seguido por 100 y por último, el umbral 1.
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+

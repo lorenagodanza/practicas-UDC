@@ -1,0 +1,213 @@
+INFORME PRACTICA 4 ALGORTMOS (MONTÍCULOS)
+
+
+AUTORES:
+
+Lorena Godón Danza —> lorena.godon@udc.es
+
+Marta Vidal López —> marta.vidal.lopez@udc.es
+
+
+
+MAQUINA DONDE SE REALIZARON LAS MEDICIONES:
+
+Ordenador: MSI Modern 14 B11SB
+
+Procesador: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8
+
+Sistema Operativo: Ubuntu 22.04.1 LTS
+
+Memoria: 16,0 GiB
+
+
+
+************INTRODUCCIÓN************
+
+Los montículos son árboles binarios completos, es decir, todos sus niveles están llenos salvo el último nivel,
+que se va rellenando de izquierda a derecha. En esta práctica estamos trabajando con los montículos de máximos,
+por lo que se verifica la propiedad de que todo nodo es mayot o igual que cualquiera de sus hijos. 
+En consecuencia, siempre encontraremos el valor más alto en la cima del montículo. 
+Estas estructuras se pueden representar fácilmente en un vector indexado desde 0 siendo el padre el i-esimo elemento,
+hallando su hijo izquierdo en la posición 2i+1 y al hijo derecho en la posición 2i+2.
+
+
+En esta práctica hemos implementado en lenguaje C la estructura de monstículo de máximos así como todas 
+sus funciones necesarias. Se han implementado dos funciones principales, la encargada de la creación del montículo, 
+y la encargada de ordenar los elementos de un vector dado en tres diferentes inicializaciones (ascendente, 
+descendete y aleatorio).
+
+Desmostraremos también empíricamente que la operación crear_monticulo se ejecuta en un tiempo O(n) a partir 
+de un vector cualquiera con n elementos. Para esto hemos usado un vector inicializado ascendentemente.
+
+
+Los tiempos medidos en esta práctica están en microsegundos y la N sigue una progresión geométrica de razón 2.
+
+
+
+Medicion tiempos Crear Monticulo
+
+                 n             t                  t/n^0.8           t/n            t/n^1.2
+
+*	       500    	     5.08200    	0.035225621    	0.010164000    	0.0029327204
+*	      1000    	    10.11200    	0.040256597    	0.010112000    	0.0025400196
+*	      2000    	    20.30300    	0.046423322    	0.010151500    	0.0022198530
+*	      4000    	    43.46700    	0.057083642    	0.010866750    	0.0020686531
+*	      8000    	    81.32600    	0.061341928    	0.010165750    	0.0016846955
+*	     16000    	   167.78200    	0.072685768    	0.010486375    	0.0015128692
+*	     32000    	   353.72400    	0.088012538    	0.011053875    	0.0013883039
+ 	     64000    	   670.00000    	0.095748245    	0.010468750    	0.0011446134
+ 	    128000    	  1363.00000    	0.111873669    	0.010648437    	0.0010135470
+ 	    256000    	  2639.00000    	0.124407745    	0.010308594    	0.0008541840
+ 	    512000    	  5609.00000    	0.151869118    	0.010955078    	0.0007902445
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+	
+	>> Cota subestimada --> n^0.8
+	
+	>> Cota ajustada --> n   		Cte. = [0.010112000 , 0.011053875]
+	
+	>> Cota sobrestimada --> n^(1.2)
+
+
+La operación de crear un montículo es de complejidad O(n), ya que se debe recorrer el conjunto de datos 
+completo para insertar cada elemento en el montículo y aplicar las operaciones de flotar y hundir necesarias 
+para mantener la propiedad de montículo.
+
+
+
+
+
+Medicion tiempos Ordenar Monticulo Ascendente
+
+                 n             t                t(n)/n^0.93     t/n*log(n)        t/n^1.6
+
+*	       500    	    37.39200    	0.115541125    	0.012033583    	0.0017964978
+*	      1000    	    91.20600    	0.147918812    	0.013203421    	0.0014455177
+*	      2000    	   226.64100    	0.192921479    	0.014908822    	0.0011849240
+*	      4000    	   464.46600    	0.207509573    	0.013999976    	0.0008010469
+ 	      8000    	   986.00000    	0.231208197    	0.013713954    	0.0005609613
+ 	     16000    	  2047.00000    	0.251933696    	0.013216214    	0.0003841721
+ 	     32000    	  4209.00000    	0.271887628    	0.012679555    	0.0002605787
+ 	     64000    	  8811.00000    	0.298729303    	0.012440261    	0.0001799439
+ 	    128000    	 18578.00000    	0.330593025    	0.012342115    	0.0001251593
+ 	    256000    	 38293.00000    	0.357648349    	0.012011791    	0.0000851012
+ 	    512000    	 78501.00000    	0.384816890    	0.011662965    	0.0000575497
+ 
+ 
+ (*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+ 	    
+ 	    	
+	>> Cota subestimada --> n^0.93
+	
+	>> Cota ajustada --> n*log(n)   		Cte. = [0.011662965 , 0.014908822]
+	
+	>> Cota sobrestimada --> n^1.6
+
+
+
+Medicion tiempos Ordenar Monticulo Descendente
+
+                 n             t                t(n)/n^0.93      t/*log(n)        t/n^1.6
+
+*	       500    	    33.54600    	0.103657001    	0.010795854    	0.0016117168
+*	      1000    	    74.38900    	0.120644831    	0.010768911    	0.0011789862
+*	      2000    	   207.77100    	0.176858947    	0.013667522    	0.0010862679
+*	      4000    	   448.91400    	0.200561402    	0.013531207    	0.0007742250
+ 	      8000    	   925.00000    	0.216904242    	0.012865524    	0.0005262568
+ 	     16000    	  1989.00000    	0.244795370    	0.012841744    	0.0003732870
+ 	     32000    	  4036.00000    	0.260712394    	0.012158395    	0.0002498683
+ 	     64000    	  8530.00000    	0.289202242    	0.012043517    	0.0001742052
+ 	    128000    	 18018.00000    	0.320627900    	0.011970084    	0.0001213866
+ 	    256000    	 37239.00000    	0.347804216    	0.011681172    	0.0000827588
+ 	    512000    	 76591.00000    	0.375453949    	0.011379194    	0.0000561495
+
+	
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+	
+	
+	>> Cota subestimada --> n^0.93
+	
+	>> Cota ajustada --> n*log(n)   		Cte. = [0.010768911 , 0.013667522]
+	
+	>> Cota sobrestimada --> n^1.6
+
+
+
+
+Medicion tiempos Ordenar Monticulo Aleatorio
+
+                 n             t                t(n)/n^0.93     t/n*log(n)        t/n^1.6
+
+*	       500    	    55.16400    	0.170456531    	0.017753010    	0.0026503531
+*	      1000    	   116.77400    	0.189385252    	0.016904768    	0.0018507432
+*	      2000    	   251.27300    	0.213888743    	0.016529156    	0.0013137049
+ 	      4000    	   561.00000    	0.250638088    	0.016909713    	0.0009675354
+ 	      8000    	  1175.00000    	0.275527010    	0.016342693    	0.0006684884
+ 	     16000    	  2518.00000    	0.309901831    	0.016257170    	0.0004725674
+ 	     32000    	  5251.00000    	0.339197419    	0.015818566    	0.0003250888
+ 	     64000    	 11137.00000    	0.377590313    	0.015724344    	0.0002274470
+ 	    128000    	 23632.00000    	0.420528279    	0.015699691    	0.0001592079
+ 	    256000    	 51029.00000    	0.476599838    	0.016006834    	0.0001134052
+ 	    512000    	109201.00000    	0.535310241    	0.016224091    	0.0000800561
+
+
+(*): Tiempo promedio de 1000 ejecuciones del algoritmo, se usa cuendo se obtiene un tiempo de ejecución inferior a 500µs
+
+
+	>> Cota subestimada --> n^0.93
+	
+	>> Cota ajustada --> n*log(n)   		Cte. = [0.016006834 , 0.017753010]
+	
+	>> Cota sobrestimada --> n^1.6
+
+
+
+
+ 	    
+
+
+
+************OBSERVACIONES Y CONCLUSIONES************
+
+
+Los tiempos de ejecución de las operaciones de crear montículo y ordenar montículo dependen principalmente del 
+tamaño del conjunto de datos que se está utilizando.
+
+Para realizar el ordenamiento por montículos, se comienza construyendo un montículo a partir del conjunto de 
+datos que se desea ordenar. Luego, se extrae el nodo raíz del montículo, que siempre será el elemento de mayor 
+valor, y se coloca en la posición correspondiente en el vector resultante. A continuación, se "hunde" el último 
+nodo del montículo hasta encontrar su posición correcta en el montículo, y se repite el proceso hasta que todos 
+los nodos del montículo hayan sido extraídos y colocados en el vector resultante.
+
+El ordenamiento por montículos tiene una complejidad de tiempo de O(n log n), lo que lo convierte en un algoritmo 
+eficiente para ordenar conjuntos de datos de tamaño moderado a grande. Sin embargo, debido a su complejidad, 
+puede ser menos eficiente que otros algoritmos de ordenación para conjuntos de datos más pequeños.
+
+En cuanto a la inicializacion del vector que se quiere ordenar, todos los casos son similares, siendo un poco 
+peor el caso en el que el vector se inicializa aleatoriamente.
+
+El resultado es que tanto en tiempo como en  complejidad, los tres casos de inicialización son muy similares.
+
+Podemos decir que este algoritmo de ordenación es bastante estable ya que los tiempos de ejecucion son similares
+independientemente de la inicialización del vector. Esto marca la diferencia respecto a otros alogritmos de ordenación 
+para los cuales existe un caso mejor y que se diferencia notablemente del resto.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

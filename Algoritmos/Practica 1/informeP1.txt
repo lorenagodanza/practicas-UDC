@@ -1,0 +1,158 @@
+Viernes 23-09-2022
+ AUTORES: 
+ Lorena Godón Danza -> lorena.godon@udc.es
+
+*********INTRODUCCIÓN*********
+
+El objetivo de esta practicas es analizar la complejidad computacional de las 3 implementaciones de 3 pseudocódigos que calculan el n-ésimo término de la sucesión de Fibonacci
+Todos los tiempos de ejecucion estarán medidos en microsegundos y los valores anómalos se marcan con un * en las tablas.
+
+Para fib1 se aplica una progresión geométrica de razón 2, siendo 2, 4, 8, 16 y 32 los valores sobre los cuales se aplica. Por otra parte, para fib2 y fib3 se sigue una progresión geométrica de razón 10 que usará los valores 1.000, 10.000, 100.000, 1.000.000 y 10.000.000.
+
+
+
+
+
+MAQUINA DONDE SE REALIZARON LAS MEDICIONES:
+
+Ordenador: MSI Modern 14 B11SB
+
+Procesador: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8
+
+Sistema Operativo: Ubuntu 22.04.1 LTS
+
+Memoria: 16,0 GiB
+
+
+
+
+
+TABLA DE TIEMPOS DE EJECUCIÓN DE FIB1(N):
+
+fib1
+        n	            t	                t/f(n)	                t/g(n)	               t/h(n)
+        
+	2    	       0.005100    	       0.004215    	       0.001948    	     0.00127500
+	4    	       0.015920    	       0.010874    	       0.002323    	     0.00099500
+	8    	       0.120290    	       0.056116    	       0.002561    	     0.00046988
+	16    	       5.859510    	       1.275200    	       0.002655    	     0.00008941
+	32    	  *12950.000000    	     613.343608    	       0.002659    	     0.00000302
+
+
+---- f(n) = 1.1^n 		--> es subestimada  
+
+---- g(n) = ((1+sqrt(5))/2)^n   --> es ajustada ->  Cte ∈ [0.001948, 0.002659]
+
+---- h(n) =  2^n 		--> es sobreestimada
+
+k= 10000
+
+
+
+
+TABLA DE TIEMPOS DE EJECUCIÓN DE FIB2(N):
+
+fib2
+         n	           	 t	                t/f(n)	                t/g(n)	               t/h(n)
+       
+	1000    	       1.988700    	       0.007917    	       0.001989    	     0.00028789
+	10000    	      19.860200    	       0.012531    	       0.001986    	     0.00021563
+	100000    	     197.810200    	       0.019781    	       0.001978    	     0.00017182
+	1000000    	   *1991.000000    	       0.031555    	       0.001991    	     0.00014411
+	10000000    	  *19915.000000    	       0.050024    	       0.001992    	     0.00012356
+	
+
+
+---- f(n) = n^0.8  	--> es subestimada
+
+---- g(n) = n  		--> es la cota ajustada -> Cte ∈ [0.001989, 0.001992]
+
+---- h(n) = n*log(n) 	--> es sobreestimada 
+
+k= 10000
+
+
+
+
+TABLA DE TIEMPOS DE EJECUCIÓN DE FIB3(N):
+
+
+fib3
+       	 n	            	  t	          	t/f(n)	                t/g(n)	               t/h(n)
+       	 
+	1000    	       0.043200    	       0.016437    	       0.006254    	     0.00136610
+	10000    	       0.066600    	       0.021945    	       0.007231    	     0.00066600
+	100000    	       0.094900    	       0.027969    	       0.008243    	     0.00030010
+	1000000    	       0.104600    	       0.028142    	       0.007571    	     0.00010460
+	10000000    	       0.116400    	       0.028993    	       0.007222    	     0.00003681
+
+
+---- f(n) = sqrt(log(n))	--> es subestimada
+
+---- g(n) = log(n)		--> es la cota ajustada -> Cte ∈ [0.006254, 0.007222]
+
+---- h(n) = n^0.5		--> es sobreestimada
+
+k= 10000
+
+
+
+
+
+*********CONCLUSIONES*********
+
+ALGORITMO 1 (fib1):
+
+En este algoritmo la cota ajustada varía entre [0.001948, 0.002659], permitiéndonos calcular un tiempo aproximado de 0,0024292 microsegundos.
+Su cota sobreestimada tiende a 0 a medida que aumenta n, al contrario de su cota subestimada, que crece de manera exponencial.
+Podemos observar que los tiempos de ejecución aumentan a medida que aumenta n, siendo ya muy grandes con una n=32.
+Como ya se ha indicado, los tiempos de este algoritmo crecen exponencialmente, notándose una gran diferencia en el cálculo de los tiempos de ejecución para n=16 y n=32.
+
+Todos los tiempos han sido medidos en microsegundos.
+
+
+ALGORITMO 2 (fib2):
+
+En este siguiente algoritmo podemos apreciar claramente que la cota ajustada se mantiene constante en un valor aproximado de 0,0019872.
+Observamos que la cota sobreestimada se comporta de forma esperada, ya que esta tiende a cero a medida que crece n. Sin embargo, la cota subestimada crece débilmente, necesitando datos de n más grandes para que los valores sean apreciables.
+
+Los tiempos de ejecución de este algoritmo crecen de forma lineal, siendo dos de ellos los que superan los 500 microsegundos establecidos en la medición de tiempo de dicho algoritmo.
+
+
+ALGORITMO 3 (fib3):
+
+Para este último algoritmo, la cota ajustada oscila entre los valores [0.006254, 0.007222].
+La cota sobreestimada sigue su comportamiento esperado, acercandose a cero cuanto más grande es n. 
+Por otro lado, podríamos decir que la cota subestimada no es muy buena ya que esta no crece lo suficente.
+
+Este algoritmo es de gran rapidez debido a su complejidad logarítmica, permitiendo que, a pesar de que los datos de n sean muy grandes, sus tiempos de ejecución sigan siendo pequeños, teniendo así un mayor rendimiento. 
+
+
+
+*********OBSERVACIONES*********
+
+Podemos afirmar que fib3 es el algoritmo más rapido de entre los tres presentados.
+
+Todas las mediciones de los tiempos se han realizado en microsegundos.
+En el codigo se ha establecido que si el tiempo de ejecución es inferior a 500 microsegundos, el algoritmo se repetiría k veces (indicada esta constante en cada algoritmo).
+
+En lo referente a las anomalías en las mediciones, podemos observar un aumento desproporcionado en la última iteración de fib1.
+
+Los asteriscos (*) de las tablas de medición de tiempos indican que el algoritmo supera los 500 microsegundo en dicha iteración.
+
+La complejidad del primer algoritmo es mayor que la del segundo, siendo esta a su vez mayor que la del primero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
