@@ -8,7 +8,7 @@ import 'FavouritesProvider.dart';
 import 'HistoryProvider.dart';
 
 
-const apiKey = 'riWukmzDSI42w6v5vjgJfq';
+const apiKey = '';
 
 class ConversionProvider with ChangeNotifier {
   double _amount = 0.0;
